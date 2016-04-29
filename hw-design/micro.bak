@@ -1,0 +1,919 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:iwasz-kicad
+LIBS:robot1-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 5
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L STM32F0-LQFP48 U?
+U 1 1 5724042B
+P 6000 4050
+F 0 "U?" H 6000 3700 60  0000 C CNN
+F 1 "STM32F072CB / STM32F042C6" H 6000 3600 60  0000 C CNN
+F 2 "w_smd_lqfp:lqfp48" H 6450 3750 60  0001 C CNN
+F 3 "" H 6450 3750 60  0000 C CNN
+F 4 "µC" H 6000 4050 60  0001 C CNN "Opis"
+	1    6000 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C?
+U 1 1 5724042C
+P 7500 3400
+F 0 "C?" H 7525 3500 50  0000 L CNN
+F 1 "100nF" H 7525 3300 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 7538 3250 30  0001 C CNN
+F 3 "" H 7500 3400 60  0000 C CNN
+F 4 "Decoupling capacitor" H 7500 3400 60  0001 C CNN "Opis"
+	1    7500 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C?
+U 1 1 5724042D
+P 7800 3400
+F 0 "C?" H 7825 3500 50  0000 L CNN
+F 1 "4.7µF" H 7825 3300 50  0000 L CNN
+F 2 "w_smd_cap:c_0805" H 7838 3250 30  0001 C CNN
+F 3 "" H 7800 3400 60  0000 C CNN
+F 4 "Decoupling capacitor" H 7800 3400 60  0001 C CNN "Opis"
+	1    7800 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 5724042E
+P 7800 3700
+F 0 "#PWR?" H 7800 3450 50  0001 C CNN
+F 1 "GND" H 7800 3550 50  0000 C CNN
+F 2 "" H 7800 3700 60  0000 C CNN
+F 3 "" H 7800 3700 60  0000 C CNN
+	1    7800 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C?
+U 1 1 5724042F
+P 6675 5400
+F 0 "C?" H 6700 5500 50  0000 L CNN
+F 1 "100nF" H 6700 5300 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 6713 5250 30  0001 C CNN
+F 3 "" H 6675 5400 60  0000 C CNN
+F 4 "Decoupling capacitor" H 6675 5400 60  0001 C CNN "Opis"
+	1    6675 5400
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C?
+U 1 1 57240430
+P 7000 5400
+F 0 "C?" H 7025 5500 50  0000 L CNN
+F 1 "100nF" H 7025 5300 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 7038 5250 30  0001 C CNN
+F 3 "" H 7000 5400 60  0000 C CNN
+F 4 "Decoupling capacitor" H 7000 5400 60  0001 C CNN "Opis"
+	1    7000 5400
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C?
+U 1 1 57240431
+P 7300 5400
+F 0 "C?" H 7325 5500 50  0000 L CNN
+F 1 "4.7µF" H 7325 5300 50  0000 L CNN
+F 2 "w_smd_cap:c_0805" H 7338 5250 30  0001 C CNN
+F 3 "" H 7300 5400 60  0000 C CNN
+F 4 "Decoupling capacitor" H 7300 5400 60  0001 C CNN "Opis"
+	1    7300 5400
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 57240432
+P 7300 5750
+F 0 "#PWR?" H 7300 5500 50  0001 C CNN
+F 1 "GND" H 7300 5600 50  0000 C CNN
+F 2 "" H 7300 5750 60  0000 C CNN
+F 3 "" H 7300 5750 60  0000 C CNN
+	1    7300 5750
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C?
+U 1 1 57240433
+P 5675 2400
+F 0 "C?" H 5700 2500 50  0000 L CNN
+F 1 "100nF" H 5700 2300 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 5713 2250 30  0001 C CNN
+F 3 "" H 5675 2400 60  0000 C CNN
+F 4 "Decoupling capacitor" H 5675 2400 60  0001 C CNN "Opis"
+	1    5675 2400
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C C?
+U 1 1 57240434
+P 5675 2075
+F 0 "C?" H 5700 2175 50  0000 L CNN
+F 1 "100nF" H 5700 1975 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 5713 1925 30  0001 C CNN
+F 3 "" H 5675 2075 60  0000 C CNN
+F 4 "Decoupling capacitor" H 5675 2075 60  0001 C CNN "Opis"
+	1    5675 2075
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C C?
+U 1 1 57240435
+P 5675 1775
+F 0 "C?" H 5700 1875 50  0000 L CNN
+F 1 "4.7µF" H 5700 1675 50  0000 L CNN
+F 2 "w_smd_cap:c_0805" H 5713 1625 30  0001 C CNN
+F 3 "" H 5675 1775 60  0000 C CNN
+F 4 "Decoupling capacitor" H 5675 1775 60  0001 C CNN "Opis"
+	1    5675 1775
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 57240436
+P 5975 1775
+F 0 "#PWR?" H 5975 1525 50  0001 C CNN
+F 1 "GND" H 5975 1625 50  0000 C CNN
+F 2 "" H 5975 1775 60  0000 C CNN
+F 3 "" H 5975 1775 60  0000 C CNN
+	1    5975 1775
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C C?
+U 1 1 57240437
+P 4175 4500
+F 0 "C?" H 4200 4600 50  0000 L CNN
+F 1 "10nF" H 4200 4400 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 4213 4350 30  0001 C CNN
+F 3 "" H 4175 4500 60  0000 C CNN
+F 4 "Decoupling capacitor" H 4175 4500 60  0001 C CNN "Opis"
+	1    4175 4500
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C?
+U 1 1 57240438
+P 3875 4500
+F 0 "C?" H 3900 4600 50  0000 L CNN
+F 1 "1µF" H 3900 4400 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 3913 4350 30  0001 C CNN
+F 3 "" H 3875 4500 60  0000 C CNN
+F 4 "Decoupling capacitor" H 3875 4500 60  0001 C CNN "Opis"
+	1    3875 4500
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 57240439
+P 3875 4775
+F 0 "#PWR?" H 3875 4525 50  0001 C CNN
+F 1 "GND" H 3875 4625 50  0000 C CNN
+F 2 "" H 3875 4775 60  0000 C CNN
+F 3 "" H 3875 4775 60  0000 C CNN
+	1    3875 4775
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 5724043A
+P 4750 4200
+F 0 "#PWR?" H 4750 3950 50  0001 C CNN
+F 1 "GND" H 4750 4050 50  0000 C CNN
+F 2 "" H 4750 4200 60  0000 C CNN
+F 3 "" H 4750 4200 60  0000 C CNN
+	1    4750 4200
+	0    1    1    0   
+$EndComp
+NoConn ~ 4950 3500
+$Comp
+L Crystal Y?
+U 1 1 5724043B
+P 4375 3800
+F 0 "Y?" V 4329 3931 50  0000 L CNN
+F 1 "16MHz" V 4421 3931 50  0000 L CNN
+F 2 "Crystals_Oscillators_SMD:crystal_FA238-TSX3225" H 4375 3800 60  0001 C CNN
+F 3 "" H 4375 3800 60  0000 C CNN
+	1    4375 3800
+	0    1    1    0   
+$EndComp
+$Comp
+L R R?
+U 1 1 5724043C
+P 4675 4000
+F 0 "R?" V 4755 4000 50  0000 C CNN
+F 1 "R" V 4675 4000 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 4605 4000 30  0001 C CNN
+F 3 "" H 4675 4000 30  0000 C CNN
+	1    4675 4000
+	0    1    1    0   
+$EndComp
+$Comp
+L C C?
+U 1 1 5724043D
+P 4050 4000
+F 0 "C?" H 4075 4100 50  0000 L CNN
+F 1 "?10pF" H 4075 3900 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 4088 3850 30  0001 C CNN
+F 3 "" H 4050 4000 60  0000 C CNN
+F 4 "Decoupling capacitor" H 4050 4000 60  0001 C CNN "Opis"
+	1    4050 4000
+	0    1    1    0   
+$EndComp
+$Comp
+L C C?
+U 1 1 5724043E
+P 4050 3600
+F 0 "C?" H 4075 3700 50  0000 L CNN
+F 1 "?10pF" H 4075 3500 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 4088 3450 30  0001 C CNN
+F 3 "" H 4050 3600 60  0000 C CNN
+F 4 "Decoupling capacitor" H 4050 3600 60  0001 C CNN "Opis"
+	1    4050 3600
+	0    1    1    0   
+$EndComp
+$Comp
+L LED D?
+U 1 1 57240440
+P 1775 6575
+F 0 "D?" H 1775 6675 50  0000 C CNN
+F 1 "LED" H 1775 6475 50  0000 C CNN
+F 2 "LEDs:LED-0603" H 1775 6575 60  0001 C CNN
+F 3 "" H 1775 6575 60  0000 C CNN
+	1    1775 6575
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R?
+U 1 1 57240441
+P 1775 6125
+F 0 "R?" V 1855 6125 50  0000 C CNN
+F 1 "680R" V 1775 6125 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1705 6125 30  0001 C CNN
+F 3 "" H 1775 6125 30  0000 C CNN
+	1    1775 6125
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 57240442
+P 1775 7000
+F 0 "#PWR?" H 1775 6750 50  0001 C CNN
+F 1 "GND" H 1775 6850 50  0000 C CNN
+F 2 "" H 1775 7000 60  0000 C CNN
+F 3 "" H 1775 7000 60  0000 C CNN
+	1    1775 7000
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR?
+U 1 1 57240443
+P 5450 1675
+F 0 "#PWR?" H 5450 1525 50  0001 C CNN
+F 1 "+3.3V" H 5450 1815 50  0000 C CNN
+F 2 "" H 5450 1675 60  0000 C CNN
+F 3 "" H 5450 1675 60  0000 C CNN
+	1    5450 1675
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR?
+U 1 1 57240444
+P 7950 3200
+F 0 "#PWR?" H 7950 3050 50  0001 C CNN
+F 1 "+3.3V" H 7950 3340 50  0000 C CNN
+F 2 "" H 7950 3200 60  0000 C CNN
+F 3 "" H 7950 3200 60  0000 C CNN
+	1    7950 3200
+	0    1    1    0   
+$EndComp
+$Comp
+L +3.3V #PWR?
+U 1 1 57240445
+P 7450 5175
+F 0 "#PWR?" H 7450 5025 50  0001 C CNN
+F 1 "+3.3V" H 7450 5315 50  0000 C CNN
+F 2 "" H 7450 5175 60  0000 C CNN
+F 3 "" H 7450 5175 60  0000 C CNN
+	1    7450 5175
+	0    1    1    0   
+$EndComp
+$Comp
+L +3.3V #PWR?
+U 1 1 57240446
+P 3725 4300
+F 0 "#PWR?" H 3725 4150 50  0001 C CNN
+F 1 "+3.3V" H 3725 4440 50  0000 C CNN
+F 2 "" H 3725 4300 60  0000 C CNN
+F 3 "" H 3725 4300 60  0000 C CNN
+	1    3725 4300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 57240447
+P 3700 4000
+F 0 "#PWR?" H 3700 3750 50  0001 C CNN
+F 1 "GND" H 3700 3850 50  0000 C CNN
+F 2 "" H 3700 4000 60  0000 C CNN
+F 3 "" H 3700 4000 60  0000 C CNN
+	1    3700 4000
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7225 3200 7950 3200
+Wire Wire Line
+	7800 3200 7800 3250
+Wire Wire Line
+	7500 3250 7500 3200
+Connection ~ 7500 3200
+Wire Wire Line
+	7800 3550 7800 3700
+Wire Wire Line
+	7500 3550 7500 3600
+Wire Wire Line
+	7000 3600 7800 3600
+Connection ~ 7800 3600
+Wire Wire Line
+	6550 5050 6550 5175
+Wire Wire Line
+	6550 5175 7450 5175
+Wire Wire Line
+	7300 5175 7300 5250
+Wire Wire Line
+	7000 5250 7000 5175
+Connection ~ 7000 5175
+Wire Wire Line
+	6675 5250 6675 5175
+Connection ~ 6675 5175
+Wire Wire Line
+	7300 5550 7300 5750
+Wire Wire Line
+	6675 5550 6675 5625
+Wire Wire Line
+	6450 5625 7300 5625
+Connection ~ 7300 5625
+Wire Wire Line
+	7000 5550 7000 5625
+Connection ~ 7000 5625
+Wire Wire Line
+	5450 1675 5450 3000
+Wire Wire Line
+	5525 2075 5450 2075
+Connection ~ 5450 2075
+Wire Wire Line
+	5525 2400 5450 2400
+Connection ~ 5450 2400
+Wire Wire Line
+	5825 1775 5975 1775
+Wire Wire Line
+	5900 2400 5825 2400
+Wire Wire Line
+	5900 1775 5900 2575
+Wire Wire Line
+	5825 2075 5900 2075
+Connection ~ 5900 2075
+Connection ~ 5450 1775
+Wire Wire Line
+	3725 4300 4950 4300
+Wire Wire Line
+	4175 4350 4175 4300
+Connection ~ 4175 4300
+Wire Wire Line
+	4175 4650 4175 4700
+Wire Wire Line
+	4175 4700 3875 4700
+Wire Wire Line
+	3875 4650 3875 4775
+Connection ~ 3875 4700
+Wire Wire Line
+	4950 4200 4750 4200
+Wire Wire Line
+	5550 2575 5550 3000
+Wire Wire Line
+	6450 5050 6450 5625
+Wire Wire Line
+	4950 4000 4825 4000
+Wire Wire Line
+	3875 3600 3900 3600
+Connection ~ 3875 4300
+Wire Wire Line
+	3700 4000 3900 4000
+Wire Wire Line
+	4200 4000 4525 4000
+Wire Wire Line
+	4200 3600 4675 3600
+Wire Wire Line
+	4375 3600 4375 3650
+Wire Wire Line
+	4375 3950 4375 4000
+Connection ~ 4375 4000
+Wire Wire Line
+	4675 3600 4675 3900
+Wire Wire Line
+	4675 3900 4950 3900
+Connection ~ 4375 3600
+Wire Wire Line
+	5450 1775 5525 1775
+Connection ~ 5900 1775
+Connection ~ 7800 3200
+Connection ~ 7300 5175
+Wire Wire Line
+	3875 4350 3875 4300
+Wire Wire Line
+	3875 4000 3875 3600
+Connection ~ 3875 4000
+Wire Wire Line
+	1775 6375 1775 6275
+Connection ~ 6675 5625
+Connection ~ 7500 3600
+Wire Wire Line
+	5900 2575 5550 2575
+Connection ~ 5900 2400
+Wire Wire Line
+	7000 3500 7225 3500
+Wire Wire Line
+	7225 3500 7225 3200
+$Comp
+L usb-micro U?
+U 1 1 57240461
+P 8925 4175
+F 0 "U?" H 8975 4075 60  0000 C CNN
+F 1 "usb-micro" H 8975 4175 60  0000 C CNN
+F 2 "w_conn_pc:conn_usb_B_micro_smd-2" H 8975 4175 60  0001 C CNN
+F 3 "" H 8975 4175 60  0000 C CNN
+	1    8925 4175
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R?
+U 1 1 57240462
+P 8050 4225
+F 0 "R?" V 8130 4225 50  0000 C CNN
+F 1 "22R" V 8050 4225 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 7980 4225 30  0001 C CNN
+F 3 "" H 8050 4225 30  0000 C CNN
+F 4 "Terminacja USB" V 8050 4225 60  0001 C CNN "Opis"
+	1    8050 4225
+	0    1    1    0   
+$EndComp
+$Comp
+L R R?
+U 1 1 57240463
+P 7825 4125
+F 0 "R?" V 7905 4125 50  0000 C CNN
+F 1 "22R" V 7825 4125 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 7755 4125 30  0001 C CNN
+F 3 "" H 7825 4125 30  0000 C CNN
+F 4 "Terminacja USB" V 7825 4125 60  0001 C CNN "Opis"
+	1    7825 4125
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8325 4125 7975 4125
+Wire Wire Line
+	8325 4225 8200 4225
+Wire Wire Line
+	7675 4125 7425 4125
+Wire Wire Line
+	7425 4125 7425 3900
+Wire Wire Line
+	7425 3900 7000 3900
+Wire Wire Line
+	7900 4225 7500 4225
+Wire Wire Line
+	7500 4225 7500 3800
+Wire Wire Line
+	7500 3800 7000 3800
+$Comp
+L GND #PWR?
+U 1 1 57240464
+P 8250 4500
+F 0 "#PWR?" H 8250 4250 50  0001 C CNN
+F 1 "GND" H 8250 4350 50  0000 C CNN
+F 2 "" H 8250 4500 60  0000 C CNN
+F 3 "" H 8250 4500 60  0000 C CNN
+	1    8250 4500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8325 4425 8250 4425
+Wire Wire Line
+	8250 4425 8250 4500
+NoConn ~ 8325 4325
+$Comp
+L +5V #PWR?
+U 1 1 57240465
+P 8250 3875
+F 0 "#PWR?" H 8250 3725 50  0001 C CNN
+F 1 "+5V" H 8250 4015 50  0000 C CNN
+F 2 "" H 8250 3875 60  0000 C CNN
+F 3 "" H 8250 3875 60  0000 C CNN
+	1    8250 3875
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7300 4025 8325 4025
+Wire Wire Line
+	8250 4025 8250 3875
+Wire Wire Line
+	4725 4600 4950 4600
+Wire Wire Line
+	5450 5050 5450 5250
+Wire Wire Line
+	5550 5250 5550 5050
+Wire Wire Line
+	5650 5250 5650 5050
+Wire Wire Line
+	5750 5050 5750 5250
+Wire Wire Line
+	5850 5250 5850 5050
+Wire Wire Line
+	5950 5050 5950 5250
+$Comp
+L CONN_01X04 P?
+U 1 1 5724046F
+P 9425 2300
+F 0 "P?" V 9390 2056 50  0000 R CNN
+F 1 "CONN_01X04" V 9298 2056 50  0000 R CNN
+F 2 "w_pin_strip:pin_strip_4" H 9425 2300 50  0001 C CNN
+F 3 "" H 9425 2300 50  0000 C CNN
+	1    9425 2300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R?
+U 1 1 57240470
+P 9375 2800
+F 0 "R?" H 9445 2846 50  0000 L CNN
+F 1 "22R" H 9445 2754 50  0000 L CNN
+F 2 "w_smd_resistors:r_0603" V 9305 2800 50  0001 C CNN
+F 3 "" H 9375 2800 50  0000 C CNN
+	1    9375 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R?
+U 1 1 57240471
+P 9575 2800
+F 0 "R?" H 9645 2846 50  0000 L CNN
+F 1 "22R" H 9645 2754 50  0000 L CNN
+F 2 "w_smd_resistors:r_0603" V 9505 2800 50  0001 C CNN
+F 3 "" H 9575 2800 50  0000 C CNN
+	1    9575 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 57240472
+P 9475 3075
+F 0 "#PWR?" H 9475 2825 50  0001 C CNN
+F 1 "GND" H 9475 2925 50  0000 C CNN
+F 2 "" H 9475 3075 60  0000 C CNN
+F 3 "" H 9475 3075 60  0000 C CNN
+	1    9475 3075
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR?
+U 1 1 57240473
+P 9275 3075
+F 0 "#PWR?" H 9275 2925 50  0001 C CNN
+F 1 "+3.3V" H 9275 3215 50  0000 C CNN
+F 2 "" H 9275 3075 60  0000 C CNN
+F 3 "" H 9275 3075 60  0000 C CNN
+	1    9275 3075
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	9275 2500 9275 3075
+Wire Wire Line
+	9375 2500 9375 2650
+Wire Wire Line
+	9475 2500 9475 3075
+Wire Wire Line
+	9575 2500 9575 2650
+Wire Wire Line
+	9575 2950 9575 3375
+Wire Wire Line
+	9375 2950 9375 3375
+Text Label 9375 3375 3    60   ~ 0
+swdio
+Text Label 9575 3375 3    60   ~ 0
+swdclk
+$Comp
+L test-double P?
+U 1 1 57240474
+P 3300 4100
+F 0 "P?" H 3444 3969 60  0000 C CNN
+F 1 "test-double" H 3500 4000 60  0001 C CNN
+F 2 "iwasz:testpad-2p" H 3400 3950 60  0001 C CNN
+F 3 "" H 3400 3950 60  0000 C CNN
+	1    3300 4100
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4950 4100 3300 4100
+Text Label 6550 3000 1    60   ~ 0
+swdclk
+Text Label 7000 3700 0    60   ~ 0
+swdio
+Text GLabel 5650 2925 1    40   Input ~ 0
+progress
+Wire Wire Line
+	5650 3000 5650 2925
+Text GLabel 4800 3475 1    40   Input ~ 0
+complete
+Wire Wire Line
+	4800 3475 4800 3600
+Wire Wire Line
+	4800 3600 4950 3600
+Wire Wire Line
+	1775 6775 1775 7000
+Wire Wire Line
+	7300 4025 7300 4000
+Wire Wire Line
+	7300 4000 7000 4000
+Connection ~ 8250 4025
+Text HLabel 5450 5250 3    60   Output ~ 0
+aphasel
+Text HLabel 5550 5250 3    60   Output ~ 0
+bphasel
+Text HLabel 5750 5250 3    60   Output ~ 0
+aphaser
+Text HLabel 5850 5250 3    60   Output ~ 0
+bphaser
+Text HLabel 5950 5250 3    60   Output ~ 0
+aenbll
+Text HLabel 6050 5250 3    60   Output ~ 0
+benbll
+Text HLabel 6150 5250 3    60   Output ~ 0
+aenblr
+Text HLabel 6250 5250 3    60   Output ~ 0
+benblr
+Wire Wire Line
+	6050 5050 6050 5250
+Wire Wire Line
+	6150 5050 6150 5250
+Wire Wire Line
+	6250 5050 6250 5250
+Text HLabel 6150 2875 1    60   Output ~ 0
+ble_spi_mosi
+Wire Wire Line
+	6150 3000 6150 2875
+Text HLabel 5650 5250 3    60   Output ~ 0
+ble_spi_clk
+Text HLabel 6250 2875 1    60   Input ~ 0
+ble_spi_miso
+Wire Wire Line
+	6250 2875 6250 3000
+Text HLabel 6350 2875 1    60   Input ~ 0
+ble_spi_irq
+Wire Wire Line
+	6350 3000 6350 2875
+Text HLabel 6450 2875 1    60   Output ~ 0
+ble_resetn
+Wire Wire Line
+	6450 3000 6450 2875
+Text HLabel 6050 2875 1    60   Output ~ 0
+ble_spi_cs
+Wire Wire Line
+	6050 3000 6050 2875
+Text HLabel 4850 4400 0    60   Input ~ 0
+progress
+Text HLabel 4850 4500 0    60   Input ~ 0
+complete
+Text HLabel 4600 5200 3    60   Input ~ 0
+sense
+Wire Wire Line
+	4850 4400 4950 4400
+Wire Wire Line
+	4850 4500 4950 4500
+$Comp
+L R R?
+U 1 1 5727D143
+P 4600 4950
+F 0 "R?" H 4670 4996 50  0000 L CNN
+F 1 "1k" H 4670 4905 50  0000 L CNN
+F 2 "" V 4530 4950 50  0000 C CNN
+F 3 "" H 4600 4950 50  0000 C CNN
+	1    4600 4950
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 5727D3BA
+P 4825 5200
+F 0 "#PWR?" H 4825 4950 50  0001 C CNN
+F 1 "GND" V 4830 5072 50  0000 R CNN
+F 2 "" H 4825 5200 50  0000 C CNN
+F 3 "" H 4825 5200 50  0000 C CNN
+	1    4825 5200
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R?
+U 1 1 5727D467
+P 4825 4950
+F 0 "R?" H 4895 4996 50  0000 L CNN
+F 1 "1k" H 4895 4905 50  0000 L CNN
+F 2 "" V 4755 4950 50  0000 C CNN
+F 3 "" H 4825 4950 50  0000 C CNN
+	1    4825 4950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4600 5200 4600 5100
+Wire Wire Line
+	4825 5200 4825 5100
+Wire Wire Line
+	4600 4800 4600 4725
+Wire Wire Line
+	4600 4725 4825 4725
+Wire Wire Line
+	4825 4725 4825 4800
+Wire Wire Line
+	4725 4600 4725 4725
+Connection ~ 4725 4725
+Wire Wire Line
+	1775 5975 1775 5900
+$Comp
+L LED D?
+U 1 1 57282063
+P 2075 6575
+F 0 "D?" H 2075 6675 50  0000 C CNN
+F 1 "LED" H 2075 6475 50  0000 C CNN
+F 2 "LEDs:LED-0603" H 2075 6575 60  0001 C CNN
+F 3 "" H 2075 6575 60  0000 C CNN
+	1    2075 6575
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R?
+U 1 1 57282069
+P 2075 6125
+F 0 "R?" V 2155 6125 50  0000 C CNN
+F 1 "680R" V 2075 6125 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2005 6125 30  0001 C CNN
+F 3 "" H 2075 6125 30  0000 C CNN
+	1    2075 6125
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 5728206F
+P 2075 7000
+F 0 "#PWR?" H 2075 6750 50  0001 C CNN
+F 1 "GND" H 2075 6850 50  0000 C CNN
+F 2 "" H 2075 7000 60  0000 C CNN
+F 3 "" H 2075 7000 60  0000 C CNN
+	1    2075 7000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2075 6375 2075 6275
+Wire Wire Line
+	2075 6775 2075 7000
+Wire Wire Line
+	2075 5975 2075 5900
+$Comp
+L LED D?
+U 1 1 57282174
+P 2350 6575
+F 0 "D?" H 2350 6675 50  0000 C CNN
+F 1 "LED" H 2350 6475 50  0000 C CNN
+F 2 "LEDs:LED-0603" H 2350 6575 60  0001 C CNN
+F 3 "" H 2350 6575 60  0000 C CNN
+	1    2350 6575
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R?
+U 1 1 5728217A
+P 2350 6125
+F 0 "R?" V 2430 6125 50  0000 C CNN
+F 1 "680R" V 2350 6125 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2280 6125 30  0001 C CNN
+F 3 "" H 2350 6125 30  0000 C CNN
+	1    2350 6125
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 57282180
+P 2350 7000
+F 0 "#PWR?" H 2350 6750 50  0001 C CNN
+F 1 "GND" H 2350 6850 50  0000 C CNN
+F 2 "" H 2350 7000 60  0000 C CNN
+F 3 "" H 2350 7000 60  0000 C CNN
+	1    2350 7000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2350 6375 2350 6275
+Wire Wire Line
+	2350 6775 2350 7000
+Wire Wire Line
+	2350 5975 2350 5900
+$Comp
+L LED D?
+U 1 1 57282189
+P 2650 6575
+F 0 "D?" H 2650 6675 50  0000 C CNN
+F 1 "LED" H 2650 6475 50  0000 C CNN
+F 2 "LEDs:LED-0603" H 2650 6575 60  0001 C CNN
+F 3 "" H 2650 6575 60  0000 C CNN
+	1    2650 6575
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R?
+U 1 1 5728218F
+P 2650 6125
+F 0 "R?" V 2730 6125 50  0000 C CNN
+F 1 "680R" V 2650 6125 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2580 6125 30  0001 C CNN
+F 3 "" H 2650 6125 30  0000 C CNN
+	1    2650 6125
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 57282195
+P 2650 7000
+F 0 "#PWR?" H 2650 6750 50  0001 C CNN
+F 1 "GND" H 2650 6850 50  0000 C CNN
+F 2 "" H 2650 7000 60  0000 C CNN
+F 3 "" H 2650 7000 60  0000 C CNN
+	1    2650 7000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2650 6375 2650 6275
+Wire Wire Line
+	2650 6775 2650 7000
+Wire Wire Line
+	2650 5975 2650 5900
+Text Label 1775 5900 1    60   ~ 0
+led1
+Text Label 2075 5900 1    60   ~ 0
+led2
+Text Label 2350 5900 1    60   ~ 0
+led3
+Text Label 2650 5900 1    60   ~ 0
+led4
+Text Label 7000 4600 0    60   ~ 0
+led1
+Text Label 7000 4500 0    60   ~ 0
+led2
+Text Label 7000 4400 0    60   ~ 0
+led3
+Text Label 7000 4300 0    60   ~ 0
+led4
+$EndSCHEMATC
