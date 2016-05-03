@@ -992,4 +992,15 @@ Text Label 4950 3600 2    60   ~ 0
 head1
 Text Label 4950 3700 2    60   ~ 0
 head2
+$Comp
+L CONN_01X01 P10
+U 1 1 5729A89D
+P 1475 1550
+F 0 "P10" H 1553 1591 50  0000 L CNN
+F 1 "CONN_01X01" H 1553 1500 50  0000 L CNN
+F 2 "iwasz:patlabor1" H 1475 1550 50  0001 C CNN
+F 3 "" H 1475 1550 50  0000 C CNN
+	1    1475 1550
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
