@@ -260,7 +260,7 @@ P 6400 2700
 F 0 "D5" H 6400 2484 50  0000 C CNN
 F 1 "D_Schottky" H 6400 2575 50  0000 C CNN
 F 2 "iwasz:sod123-pins21" H 6400 2700 50  0001 C CNN
-F 3 "" H 6400 2700 50  0000 C CNN
+F 3 "http://pl.farnell.com/multicomp/1n4148ws/diode-h-speed-100v-0-15a-sod323/dp/1466524" H 6400 2700 50  0001 C CNN
 	1    6400 2700
 	-1   0    0    1   
 $EndComp
