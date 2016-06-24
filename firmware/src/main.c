@@ -4,33 +4,80 @@
 //#include "usbd_cdc.h"
 //#include "usbd_cdc_interface.h"
 #include "config.h"
-#include "7segmentLed.h"
-#include "weight_scale_lcd.h"
 #include <stdbool.h>
+#include <stdlib.h>
+#include "functions.h"
 
 static void SystemClock_Config (void);
-//USBD_HandleTypeDef USBD_Device;
-extern uint32_t noOfUpdateEventsSinceLastRise;
-//static TIM_HandleTypeDef stopWatchTimHandle;
-
-typedef enum { WATCH_INIT,
-               WATCH_STOPPED,
-               WATCH_RUNNING } WatchState;
-
-uint8_t state = WATCH_INIT;
-
-#define EVENT_TRESHOLD 300
-// Delay between events
-uint32_t timeFromLastEvent = EVENT_TRESHOLD + 1;
+static TIM_HandleTypeDef motorMicroStepTimer;
 
 /**
- * How much update events since last rise (noOfUpdateEventsSinceLastRise) indicates
- * that light path is cut. Roughly proportional to ms.
+ * -128 : slowest backwards
+ * -1   : fastest backwards
+ * 0    : stop
+ * 1    : fastest forward
+ * 127  : slowest forward
  */
-#define UPDATE_EVENT_TRESHOLD 50
-bool beep = false;
+int8_t leftMotorSpeed = 20;
+int8_t rightMotorSpeed = 20;
 
-I2C_HandleTypeDef i2cHandle;
+/*****************************************************************************/
+
+void setWinding1L (int power)
+{
+        // *
+        TIM3->CCR3 = abs (power);
+
+        if (power >= 0) {
+                GPIO_PHASE->BSRR |= GPIO_PIN_APHASEL << 16;
+        }
+        else {
+                GPIO_PHASE->BSRR |= GPIO_PIN_APHASEL;
+        }
+}
+
+/*---------------------------------------------------------------------------*/
+
+void setWinding2L (int power)
+{
+        TIM3->CCR4 = abs (power);
+
+        if (power >= 0) {
+                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASEL << 16;
+        }
+        else {
+                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASEL;
+        }
+}
+
+/*---------------------------------------------------------------------------*/
+
+void setWinding1R (int power)
+{
+        // *
+        TIM2->CCR3 = abs (power);
+
+        if (power >= 0) {
+                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASER << 16;
+        }
+        else {
+                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASER;
+        }
+}
+
+/*---------------------------------------------------------------------------*/
+
+void setWinding2R (int power)
+{
+        TIM2->CCR4 = abs (power);
+
+        if (power >= 0) {
+                GPIO_PHASE->BSRR |= GPIO_PIN_APHASER << 16;
+        }
+        else {
+                GPIO_PHASE->BSRR |= GPIO_PIN_APHASER;
+        }
+}
 
 /*****************************************************************************/
 
@@ -39,205 +86,287 @@ int main (void)
         HAL_Init ();
         SystemClock_Config ();
 
+        //        __SYSCFG_CLK_ENABLE ();
+        //        HAL_NVIC_SetPriority (SysTick_IRQn, 0, 0);
+        //        HAL_NVIC_EnableIRQ (SysTick_IRQn);
+        __enable_irq ();
+
         /*---------------------------------------------------------------------------*/
 
         GPIO_InitTypeDef gpioInitStruct;
         __HAL_RCC_GPIOB_CLK_ENABLE ();
 
-        /* I2C TX GPIO pin configuration  */
-        gpioInitStruct.Pin = GPIO_PIN_6;
-        gpioInitStruct.Mode = GPIO_MODE_AF_OD;
-        gpioInitStruct.Pull = GPIO_PULLUP;
-        gpioInitStruct.Speed = GPIO_SPEED_HIGH;
-        gpioInitStruct.Alternate = GPIO_AF1_I2C1;
-
-        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
-
-        gpioInitStruct.Pin = GPIO_PIN_7;
-        gpioInitStruct.Alternate = GPIO_AF1_I2C1;
-
-        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+        // Lights
+        __HAL_RCC_GPIO_LED_CLK_ENABLE ();
+        gpioInitStruct.Pin = GPIO_PIN_LED_LEFT_RED | GPIO_PIN_LED_RIGHT_RED | GPIO_PIN_LED_RIGHT_YELLOW | GPIO_PIN_LED_LEFT_YELLOW;
+        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+        gpioInitStruct.Speed = GPIO_SPEED_LOW;
+        HAL_GPIO_Init (GPIO_LED, &gpioInitStruct);
 
         /*---------------------------------------------------------------------------*/
 
-        __HAL_RCC_I2C1_CLK_ENABLE ();
+        // Motors - phase
+        __HAL_RCC_GPIO_PHASE_CLK_ENABLE ();
+        gpioInitStruct.Pin = GPIO_PIN_APHASEL | GPIO_PIN_BPHASEL | GPIO_PIN_APHASER | GPIO_PIN_BPHASER;
+        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+        gpioInitStruct.Speed = GPIO_SPEED_HIGH;
+        HAL_GPIO_Init (GPIO_PHASE, &gpioInitStruct);
 
-        i2cHandle.Instance = I2C1;
-        i2cHandle.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-        i2cHandle.Init.OwnAddress1 = 0x00;
-        i2cHandle.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-        i2cHandle.Init.OwnAddress2 = 0x00;
-        i2cHandle.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-        i2cHandle.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-        i2cHandle.Init.Timing = 0x00E0D3FF;
+        // Motors - enbl
+        __HAL_RCC_GPIO_ENBL_CLK_ENABLE ();
+        gpioInitStruct.Mode = GPIO_MODE_AF_PP;
+        gpioInitStruct.Speed = GPIO_SPEED_HIGH;
 
-        if (HAL_I2C_Init (&i2cHandle) != HAL_OK) {
-                /* Initialization Error */
+        gpioInitStruct.Pin = GPIO_PIN_AENBLL;
+        // Który to numer (AF0, AF1 etc), można odczytać w tabeli "Alternate functions selected through GPIOx_AFR"
+        gpioInitStruct.Alternate = GPIO_AF1_TIM3;
+        HAL_GPIO_Init (GPIO_ENBL, &gpioInitStruct);
+
+        gpioInitStruct.Pin = GPIO_PIN_BENBLL;
+        gpioInitStruct.Alternate = GPIO_AF1_TIM3;
+        HAL_GPIO_Init (GPIO_ENBL, &gpioInitStruct);
+
+        gpioInitStruct.Pin = GPIO_PIN_AENBLR;
+        gpioInitStruct.Alternate = GPIO_AF2_TIM2;
+        HAL_GPIO_Init (GPIO_ENBL, &gpioInitStruct);
+
+        gpioInitStruct.Pin = GPIO_PIN_BENBLR;
+        gpioInitStruct.Alternate = GPIO_AF2_TIM2;
+        HAL_GPIO_Init (GPIO_ENBL, &gpioInitStruct);
+
+        /*---------------------------------------------------------------------------*/
+
+        // Enbl timers LEWY MOTOR
+        static TIM_HandleTypeDef leftMotorEnblTimer;
+        leftMotorEnblTimer.Instance = TIM3;
+        leftMotorEnblTimer.Init.Period = PERIOD - 1;                                           // *
+        leftMotorEnblTimer.Init.Prescaler = (uint32_t) (HAL_RCC_GetHCLKFreq () / 2000000) - 1; // *
+        leftMotorEnblTimer.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;                        // *
+        leftMotorEnblTimer.Init.CounterMode = TIM_COUNTERMODE_UP;
+        leftMotorEnblTimer.Init.RepetitionCounter = 0;
+
+        // *
+        // Uwaga! Zpisać to!!! Msp init jest wywoływane PRZED TIM_Base_SetConfig
+        __HAL_RCC_TIM3_CLK_ENABLE ();
+
+        if (HAL_TIM_PWM_Init (&leftMotorEnblTimer) != HAL_OK) {
                 Error_Handler ();
         }
 
+        TIM_OC_InitTypeDef sConfigOC;
+        sConfigOC.OCMode = TIM_OCMODE_PWM1;         // * Jaka różnica, bo z PWM1 mi działa tylko jeden kanał.
+        sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH; // *
+        sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;  // *
+
+        sConfigOC.Pulse = 0;
+        HAL_TIM_PWM_ConfigChannel (&leftMotorEnblTimer, &sConfigOC, TIM_CHANNEL_4);
+        HAL_TIM_PWM_Start (&leftMotorEnblTimer, TIM_CHANNEL_4);
+
+        // 0 max, 255 min
+        sConfigOC.Pulse = 0;
+        HAL_TIM_PWM_ConfigChannel (&leftMotorEnblTimer, &sConfigOC, TIM_CHANNEL_3);
+        HAL_TIM_PWM_Start (&leftMotorEnblTimer, TIM_CHANNEL_3);
+
         /*---------------------------------------------------------------------------*/
-#define DOT_TRIANGLE 1
-        uint8_t txBuffer[] = {
-                // 0xc8, 0x00, 0x00, 0xbe | DOT_TRIANGLE,  0x06, 0x7c, 0x5e, 0xc6,
-                0xc8, 0x00, 0x00, 0xda | DOT_TRIANGLE,  0xfa, 0x0e, 0xfe, 0xde,
-        };
 
-#define ADDRESS_WRITE 0x70
+        // Enbl timers PRAWY MOTOR
+        static TIM_HandleTypeDef rightMotorEnblTimer;
+        rightMotorEnblTimer.Instance = TIM2;
+        rightMotorEnblTimer.Init.Period = PERIOD - 1;                                           // *
+        rightMotorEnblTimer.Init.Prescaler = (uint32_t) (HAL_RCC_GetHCLKFreq () / 2000000) - 1; // *
+        rightMotorEnblTimer.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;                        // *
+        rightMotorEnblTimer.Init.CounterMode = TIM_COUNTERMODE_UP;
+        rightMotorEnblTimer.Init.RepetitionCounter = 0;
 
-        while (HAL_I2C_Master_Transmit (&i2cHandle, (uint8_t)ADDRESS_WRITE, (uint8_t *)txBuffer, sizeof (txBuffer), 10000) != HAL_OK) {
-                /* Error_Handler() function is called when Timeout error occurs.
-                 When Acknowledge failure occurs (Slave don't acknowledge it's address)
-                 Master restarts communication */
-                if (HAL_I2C_GetError (&i2cHandle) != HAL_I2C_ERROR_AF) {
-                        Error_Handler ();
-                }
+        // *
+        // Uwaga! Zpisać to!!! Msp init jest wywoływane PRZED TIM_Base_SetConfig
+        __HAL_RCC_TIM2_CLK_ENABLE ();
+
+        if (HAL_TIM_PWM_Init (&rightMotorEnblTimer) != HAL_OK) {
+                Error_Handler ();
         }
 
-//        uint8_t txBuffer2[] = {
-//                //0x80, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//                0x80, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-//        };
+        //        TIM_OC_InitTypeDef sConfigOC;
 
-//        while (HAL_I2C_Master_Transmit (&i2cHandle, (uint8_t)ADDRESS_WRITE, (uint8_t *)txBuffer2, sizeof (txBuffer2), 10000) != HAL_OK) {
-//                /* Error_Handler() function is called when Timeout error occurs.
-//                 When Acknowledge failure occurs (Slave don't acknowledge it's address)
-//                 Master restarts communication */
-//                if (HAL_I2C_GetError (&i2cHandle) != HAL_I2C_ERROR_AF) {
-//                        Error_Handler ();
-//                }
-//        }
+        /*
+         * OCMode mówi, czy % wypełnienia PWM rośnie wraz ze zwiększeniem CCRx, czy maleje. A więc:
+         * Kiedy TIM_OCMODE_PWM1, to rośnie. A więc im większe ustawimy CCRx, tym większy procent wypełnienia.
+         * Kiedy TIM_OCMODE_PWM1, to maleje. A więc im większe ustawimy CCRx, tym MNIEJSZY procent wypełnienia.
+         *
+         * Przykładowo jeśli mamy mamy:
+         * timer.Init.Period = 255 - 1;
+         * ...
+         * sConfigOC.OCMode = TIM_OCMODE_PWM1;
+         *
+         * To Ustawiając CCRx = 0, będziemy mieć na wyjściu stan niski (zerowe wypełnienie), a ustawiając 255
+         * będziemy mieć stan wysoki (100% wypełnienia).
+         *
+         * W reference manual jest to wyjaśnione tak:
+         * 110: PWM mode 1 - In upcounting, channel 1 is active as long as TIMx_CNT<TIMx_CCR1
+         * else inactive. In downcounting, channel 1 is inactive (OC1REF=‘0) as long as
+         * TIMx_CNT>TIMx_CCR1 else active (OC1REF=1).
+         *
+         * 111: PWM mode 2 - In upcounting, channel 1 is inactive as long as TIMx_CNT<TIMx_CCR1
+         * else active. In downcounting, channel 1 is active as long as TIMx_CNT>TIMx_CCR1 else
+         * inactive.
+         */
+        sConfigOC.OCMode = TIM_OCMODE_PWM1;
 
-#if 0
-        // Backlight
-        GPIO_InitTypeDef gpioInitStruct;
-        gpioInitStruct.Pin = GPIO_PIN_1;
-        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-        gpioInitStruct.Pull = GPIO_PULLDOWN;
-        gpioInitStruct.Speed = GPIO_SPEED_LOW;
-        HAL_GPIO_Init (GPIOA, &gpioInitStruct);
-        HAL_GPIO_WritePin (GPIOA, GPIO_PIN_1, 0);
+        /*
+         * Outpu polarity. Dla mnie to działa dokładnie tak samo jak OCMode. Kiedy High, to rośnie z CCR, a
+         * kiedy LOW, to maleje z CCR.
+         */
+        sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+        sConfigOC.OCFastMode = TIM_OCFAST_DISABLE; // Tego trochę nie rozumiem.
 
-        __HAL_RCC_GPIOC_CLK_ENABLE ();
-        RCC->BDCR &= ~RCC_BDCR_LSEON;
-        gpioInitStruct.Pin = GPIO_PIN_15;
-        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-        gpioInitStruct.Pull = GPIO_NOPULL;
-        HAL_GPIO_Init (GPIOC, &gpioInitStruct);
-        HAL_GPIO_WritePin (GPIOC, GPIO_PIN_15, 0);
+        sConfigOC.Pulse = 0;
+        HAL_TIM_PWM_ConfigChannel (&rightMotorEnblTimer, &sConfigOC, TIM_CHANNEL_4);
+        HAL_TIM_PWM_Start (&rightMotorEnblTimer, TIM_CHANNEL_4);
+
+        // 0 max, 255 min
+        sConfigOC.Pulse = 0;
+        HAL_TIM_PWM_ConfigChannel (&rightMotorEnblTimer, &sConfigOC, TIM_CHANNEL_3);
+        HAL_TIM_PWM_Start (&rightMotorEnblTimer, TIM_CHANNEL_3);
 
         /*---------------------------------------------------------------------------*/
+        // TIMER, which advances themotors one micro-step in either directions. (640 microsteps)
 
-        // Stop-watch
-        stopWatchTimHandle.Instance = TIM14;
+        motorMicroStepTimer.Instance = TIM14;
+        motorMicroStepTimer.Init.Period = 100;
+        motorMicroStepTimer.Init.Prescaler = (uint32_t) (HAL_RCC_GetHCLKFreq () / 1000000) - 1;
+        motorMicroStepTimer.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+        motorMicroStepTimer.Init.CounterMode = TIM_COUNTERMODE_UP;
+        motorMicroStepTimer.Init.RepetitionCounter = 0;
 
-        // 100Hz
-        stopWatchTimHandle.Init.Period = 100;
-        stopWatchTimHandle.Init.Prescaler = (uint32_t) (HAL_RCC_GetHCLKFreq () / 10000) - 1;
-        stopWatchTimHandle.Init.ClockDivision = 0;
-        stopWatchTimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
-        stopWatchTimHandle.Init.RepetitionCounter = 0;
-
+        // *
         // Uwaga! Zpisać to!!! Msp init jest wywoływane PRZED TIM_Base_SetConfig
         __HAL_RCC_TIM14_CLK_ENABLE ();
+
         HAL_NVIC_SetPriority (TIM14_IRQn, 0, 0);
         HAL_NVIC_EnableIRQ (TIM14_IRQn);
 
-        if (HAL_TIM_Base_Init (&stopWatchTimHandle) != HAL_OK) {
+        if (HAL_TIM_Base_Init (&motorMicroStepTimer) != HAL_OK) {
                 Error_Handler ();
         }
 
-        if (HAL_TIM_Base_Start_IT (&stopWatchTimHandle) != HAL_OK) {
+        if (HAL_TIM_Base_Start_IT (&motorMicroStepTimer) != HAL_OK) {
                 Error_Handler ();
         }
 
-        //        /* Init Device Library */
-        //        USBD_Init (&USBD_Device, &VCP_Desc, 0);
-        //
-        //        /* Add Supported Class */
-        //        USBD_RegisterClass (&USBD_Device, USBD_CDC_CLASS);
-        //
-        //        /* Add CDC Interface Class */
-        //        USBD_CDC_RegisterInterface (&USBD_Device, &USBD_CDC_fops);
-        //
-        //        /* Start Device Process */
-        //        USBD_Start (&USBD_Device);
-        //        printf ("init OK\n");
+        /*---------------------------------------------------------------------------*/
 
         while (1) {
-                if (beep) {
-                        beep = false;
-                        //                        GPIOA->BSRR |= GPIO_PIN_1;
-                        GPIOC->BSRR |= GPIO_PIN_15;
-                        HAL_Delay (100);
-                        GPIOA->BSRR |= GPIO_PIN_1 << 16;
-                        //                        GPIOC->BSRR |= GPIO_PIN_15 << 16;
-                }
-        }
-#endif
+                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED | GPIO_PIN_LED_RIGHT_RED | GPIO_PIN_LED_RIGHT_YELLOW | GPIO_PIN_LED_LEFT_YELLOW;
 
-        while (1)
-                ;
+                for (int i = 0; i < 1000000; ++i)
+                        ;
+
+                //                for (int i = 0; i < 10000; ++i)
+                //                        ;
+
+                // TODO Czemu nie działa HAL_Delay?
+                //                HAL_Delay (500);
+
+                //                for (int i = 0; i < 10000; ++i)
+                //                        ;
+
+                //                static uint8_t i = 0;
+                //                TIM3->CCR3 = ++i;
+
+                // TODO Czemu nie działa HAL_Delay?
+                //                HAL_Delay (500);
+
+                //                for (int k = 0; k < 5; ++k) {
+                //                        GPIO_PHASE->BSRR |= GPIO_PIN_APHASEL;
+                //                        GPIO_PHASE->BSRR |= GPIO_PIN_BPHASEL << 16;
+
+                //                        for (int i = 0; i < 1000000; ++i)
+                //                                ;
+
+                //                        GPIO_PHASE->BSRR |= GPIO_PIN_APHASEL << 16;
+                //                        GPIO_PHASE->BSRR |= GPIO_PIN_BPHASEL << 16;
+
+                //                        for (int i = 0; i < 1000000; ++i)
+                //                                ;
+
+                //                        GPIO_PHASE->BSRR |= GPIO_PIN_APHASEL << 16;
+                //                        GPIO_PHASE->BSRR |= GPIO_PIN_BPHASEL;
+
+                //                        for (int i = 0; i < 1000000; ++i)
+                //                                ;
+
+                //                        GPIO_PHASE->BSRR |= GPIO_PIN_APHASEL;
+                //                        GPIO_PHASE->BSRR |= GPIO_PIN_BPHASEL;
+
+                //                        for (int i = 0; i < 1000000; ++i)
+                //                                ;
+                //                }
+
+                //                for (int k = 0; k < 5 * 128; ++k) {
+                ////                        setWinding1 (COSINE[k % 128]);
+                ////                        setWinding2 (SINE[k % 128]);
+
+                //                        for (int i = 0; i < 5000; ++i)
+                //                                ;
+                //                }
+
+                GPIOB->BSRR |= (GPIO_PIN_LED_LEFT_RED | GPIO_PIN_LED_RIGHT_RED | GPIO_PIN_LED_RIGHT_YELLOW | GPIO_PIN_LED_LEFT_YELLOW) << 16;
+
+                for (int i = 0; i < 1000000; ++i)
+                        ;
+        }
 }
 
-#if 0
 /**
  * Stop-watch ISR.
  * Here the value displayed is updated. 100Hz
  */
 void TIM14_IRQHandler (void)
 {
-        __HAL_TIM_CLEAR_IT (&stopWatchTimHandle, TIM_IT_UPDATE);
+        __HAL_TIM_CLEAR_IT (&motorMicroStepTimer, TIM_IT_UPDATE);
+        static int16_t leftMicroStepNum = 0;
+        static int16_t rightMicroStepNum = 0;
+        static uint32_t prescaler = 0; // So big type on purpose
 
-        static uint16_t cnt = 0;
-        uint16_t cntTmp = cnt;
+        if (leftMotorSpeed && (prescaler % abs (leftMotorSpeed)) == 0) {
 
-        // Second digit of 1/100-s of second (0-99)
-        wslcdSetDigit (4, cntTmp % 10);
-        cntTmp /= 10;
-        // First digit of 1/100-s of second (0-99)
-        wslcdSetDigit (3, cntTmp % 10);
-        cntTmp /= 10;
-
-        // Second digit of second (0-99)
-        wslcdSetDigit (2, cntTmp % 10);
-        cntTmp /= 10;
-        // First digit of second (0-99)
-        wslcdSetDigit (1, cntTmp % 6);
-        cntTmp /= 6;
-
-        // One digit of miniutes
-        wslcdSetDigit (0, cntTmp % 10);
-
-        switch (state) {
-        case WATCH_INIT:
-                break;
-
-
-        }
-
-
-
-        if (state == WATCH_RUNNING) {
-                ++cnt;
-        }
-
-        ++timeFromLastEvent;
-
-        if (timeFromLastEvent > EVENT_TRESHOLD && noOfUpdateEventsSinceLastRise >= UPDATE_EVENT_TRESHOLD) {
-                timeFromLastEvent = 0;
-                beep = true;
-
-                if (state == WATCH_RUNNING) {
-                        state = WATCH_STOPPED;
+                if (leftMotorSpeed > 0) {
+                        ++leftMicroStepNum;
+                        leftMicroStepNum %= 640;
                 }
-                else if (state == WATCH_STOPPED) {
-                        cnt = 0;
-                        state = WATCH_RUNNING;
+                else {
+                        --leftMicroStepNum;
+
+                        if (leftMicroStepNum < 0) {
+                                leftMicroStepNum = 640;
+                        }
                 }
+
+                setWinding1L (COSINE[leftMicroStepNum % 128]);
+                setWinding2L (SINE[leftMicroStepNum % 128]);
         }
+
+        if (rightMotorSpeed && (prescaler % abs (rightMotorSpeed)) == 0) {
+
+                if (rightMotorSpeed > 0) {
+                        ++rightMicroStepNum;
+                        rightMicroStepNum %= 640;
+                }
+                else {
+                        --rightMicroStepNum;
+
+                        if (rightMicroStepNum < 0) {
+                                rightMicroStepNum = 640;
+                        }
+                }
+
+                setWinding1R (COSINE[rightMicroStepNum % 128]);
+                setWinding2R (SINE[rightMicroStepNum % 128]);
+        }
+
+        ++prescaler;
 }
-#endif
+
 /*****************************************************************************/
 
 void SystemClock_Config (void)
