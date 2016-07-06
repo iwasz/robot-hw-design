@@ -286,4 +286,6 @@ F 3 "" H 6125 2950 50  0000 C CNN
 	1    6125 2950
 	1    0    0    -1  
 $EndComp
+Text Notes 5475 2425 0    60   ~ 0
+TODO nie wlutowywać tego na początek, bo\nzapomniałem jak to ma działać. IMHO to powinno\ndziałać ok także bez tej diody.
 $EndSCHEMATC

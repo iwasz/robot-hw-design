@@ -1,12 +1,19 @@
 #include <stm32f0xx_hal.h>
-//#include "usbd_core.h"
-//#include "usbd_desc.h"
-//#include "usbd_cdc.h"
-//#include "usbd_cdc_interface.h"
 #include "config.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include "functions.h"
+
+#include "osal.h"
+#include "sensor_service.h"
+#include "stm32_bluenrg_ble.h"
+#include "bluenrg_utils.h"
+extern volatile uint8_t set_connectable;
+extern volatile int connected;
+extern AxesRaw_t axes_data;
+// CO TO JEST!
+uint8_t bnrg_expansion_board = IDB04A1; /* at startup, suppose the X-NUCLEO-IDB04A1 is used */
+void User_Process (AxesRaw_t *p_axes);
 
 static void SystemClock_Config (void);
 static TIM_HandleTypeDef motorMicroStepTimer;
@@ -18,8 +25,8 @@ static TIM_HandleTypeDef motorMicroStepTimer;
  * 1    : fastest forward
  * 127  : slowest forward
  */
-int8_t leftMotorSpeed = 20;
-int8_t rightMotorSpeed = 20;
+int8_t leftMotorSpeed = 0;
+int8_t rightMotorSpeed = 0;
 
 /*****************************************************************************/
 
@@ -85,11 +92,6 @@ int main (void)
 {
         HAL_Init ();
         SystemClock_Config ();
-
-        //        __SYSCFG_CLK_ENABLE ();
-        //        HAL_NVIC_SetPriority (SysTick_IRQn, 0, 0);
-        //        HAL_NVIC_EnableIRQ (SysTick_IRQn);
-        __enable_irq ();
 
         /*---------------------------------------------------------------------------*/
 
@@ -242,7 +244,7 @@ int main (void)
         // Uwaga! Zpisać to!!! Msp init jest wywoływane PRZED TIM_Base_SetConfig
         __HAL_RCC_TIM14_CLK_ENABLE ();
 
-        HAL_NVIC_SetPriority (TIM14_IRQn, 0, 0);
+        HAL_NVIC_SetPriority (TIM14_IRQn, 4, 0);
         HAL_NVIC_EnableIRQ (TIM14_IRQn);
 
         if (HAL_TIM_Base_Init (&motorMicroStepTimer) != HAL_OK) {
@@ -255,65 +257,106 @@ int main (void)
 
         /*---------------------------------------------------------------------------*/
 
+        //        while (1) {
+        //                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED << 16;
+        //                HAL_Delay (500);
+        //                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED;
+        //                HAL_Delay (500);
+        //        }
+
+        // BLE
+
+        const char *name = "ZlaSuka";
+        uint8_t SERVER_BDADDR[] = { 0x12, 0x34, 0x00, 0xE1, 0x80, 0x02 };
+#define BDADDR_SIZE 6
+        uint8_t bdaddr[BDADDR_SIZE];
+        uint16_t service_handle, dev_name_char_handle, appearance_char_handle;
+
+        uint8_t hwVersion;
+        uint16_t fwVersion;
+
+        int ret;
+
+
+        /* Initialize the BlueNRG SPI driver */
+        BNRG_SPI_Init ();
+
+        /* Initialize the BlueNRG HCI */
+        HCI_Init ();
+
+        /* Reset BlueNRG hardware */
+        BlueNRG_RST ();
+
+
+        /* get the BlueNRG HW and FW versions */
+        if (getBlueNRGVersion (&hwVersion, &fwVersion)) {
+                Error_Handler ();
+        }
+
+        GPIOB->BSRR |= GPIO_PIN_LED_LEFT_YELLOW;
+
+        /*
+         * Reset BlueNRG again otherwise we won't
+         * be able to change its MAC address.
+         * aci_hal_write_config_data() must be the first
+         * command after reset otherwise it will fail.
+         */
+        BlueNRG_RST ();
+
+        if (hwVersion > 0x30) { /* X-NUCLEO-IDB05A1 expansion board is used */
+                bnrg_expansion_board = IDB05A1;
+                /*
+                 * Change the MAC address to avoid issues with Android cache:
+                 * if different boards have the same MAC address, Android
+                 * applications unless you restart Bluetooth on tablet/phone
+                 */
+                SERVER_BDADDR[5] = 0x02;
+        }
+
+        /* The Nucleo board must be configured as SERVER */
+        Osal_MemCpy (bdaddr, SERVER_BDADDR, sizeof (SERVER_BDADDR));
+
+        if (aci_hal_write_config_data (CONFIG_DATA_PUBADDR_OFFSET, CONFIG_DATA_PUBADDR_LEN, bdaddr)) {
+                Error_Handler ();
+        }
+
+        if (aci_gatt_init ()) {
+                Error_Handler ();
+        }
+
+        if (bnrg_expansion_board == IDB05A1) {
+                ret = aci_gap_init_IDB05A1 (GAP_PERIPHERAL_ROLE_IDB05A1, 0, 0x07, &service_handle, &dev_name_char_handle, &appearance_char_handle);
+        }
+        else {
+                ret = aci_gap_init_IDB04A1 (GAP_PERIPHERAL_ROLE_IDB04A1, &service_handle, &dev_name_char_handle, &appearance_char_handle);
+        }
+
+        if (ret != BLE_STATUS_SUCCESS) {
+                Error_Handler ();
+        }
+
+        if (aci_gatt_update_char_value (service_handle, dev_name_char_handle, 0, strlen (name), (uint8_t *)name)) {
+                Error_Handler ();
+        }
+
+        if (aci_gap_set_auth_requirement (MITM_PROTECTION_REQUIRED, OOB_AUTH_DATA_ABSENT, NULL, 7, 16, USE_FIXED_PIN_FOR_PAIRING, 123456, BONDING)) {
+                Error_Handler ();
+        }
+
+        if (Add_Acc_Service ()) {
+                Error_Handler ();
+        }
+
+        /* Set output power level */
+        if (aci_hal_set_tx_power_level (1, 7)) {
+                Error_Handler ();
+        }
+
         while (1) {
-                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED | GPIO_PIN_LED_RIGHT_RED | GPIO_PIN_LED_RIGHT_YELLOW | GPIO_PIN_LED_LEFT_YELLOW;
-
-                for (int i = 0; i < 1000000; ++i)
-                        ;
-
-                //                for (int i = 0; i < 10000; ++i)
-                //                        ;
-
-                // TODO Czemu nie działa HAL_Delay?
-                //                HAL_Delay (500);
-
-                //                for (int i = 0; i < 10000; ++i)
-                //                        ;
-
-                //                static uint8_t i = 0;
-                //                TIM3->CCR3 = ++i;
-
-                // TODO Czemu nie działa HAL_Delay?
-                //                HAL_Delay (500);
-
-                //                for (int k = 0; k < 5; ++k) {
-                //                        GPIO_PHASE->BSRR |= GPIO_PIN_APHASEL;
-                //                        GPIO_PHASE->BSRR |= GPIO_PIN_BPHASEL << 16;
-
-                //                        for (int i = 0; i < 1000000; ++i)
-                //                                ;
-
-                //                        GPIO_PHASE->BSRR |= GPIO_PIN_APHASEL << 16;
-                //                        GPIO_PHASE->BSRR |= GPIO_PIN_BPHASEL << 16;
-
-                //                        for (int i = 0; i < 1000000; ++i)
-                //                                ;
-
-                //                        GPIO_PHASE->BSRR |= GPIO_PIN_APHASEL << 16;
-                //                        GPIO_PHASE->BSRR |= GPIO_PIN_BPHASEL;
-
-                //                        for (int i = 0; i < 1000000; ++i)
-                //                                ;
-
-                //                        GPIO_PHASE->BSRR |= GPIO_PIN_APHASEL;
-                //                        GPIO_PHASE->BSRR |= GPIO_PIN_BPHASEL;
-
-                //                        for (int i = 0; i < 1000000; ++i)
-                //                                ;
-                //                }
-
-                //                for (int k = 0; k < 5 * 128; ++k) {
-                ////                        setWinding1 (COSINE[k % 128]);
-                ////                        setWinding2 (SINE[k % 128]);
-
-                //                        for (int i = 0; i < 5000; ++i)
-                //                                ;
-                //                }
-
-                GPIOB->BSRR |= (GPIO_PIN_LED_LEFT_RED | GPIO_PIN_LED_RIGHT_RED | GPIO_PIN_LED_RIGHT_YELLOW | GPIO_PIN_LED_LEFT_YELLOW) << 16;
-
-                for (int i = 0; i < 1000000; ++i)
-                        ;
+                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED << 16;
+                HCI_Process ();
+                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED;
+                User_Process (&axes_data);
         }
 }
 
@@ -372,28 +415,61 @@ void TIM14_IRQHandler (void)
 void SystemClock_Config (void)
 {
 
+        //        RCC_OscInitTypeDef RCC_OscInitStruct;
+        //        /* Select HSI48 Oscillator as PLL source */
+        //        RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48;
+        //        RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+        //        RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+        //        RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI48;
+        //        RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV2;
+        //        RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
+
+        //        if (HAL_RCC_OscConfig (&RCC_OscInitStruct) != HAL_OK) {
+        //                Error_Handler ();
+        //        }
+
+        //        RCC_ClkInitTypeDef RCC_ClkInitStruct;
+        //        RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK;
+        //        RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+        //        RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+        //        RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+        //        HAL_RCC_ClockConfig (&RCC_ClkInitStruct, FLASH_LATENCY_1);
+
+        //        HAL_SYSTICK_Config (HAL_RCC_GetHCLKFreq () / 1000);
+        //        HAL_SYSTICK_CLKSourceConfig (SYSTICK_CLKSOURCE_HCLK);
+
         RCC_OscInitTypeDef RCC_OscInitStruct;
-        /* Select HSI48 Oscillator as PLL source */
-        RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48;
-        RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
-        RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-        RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI48;
-        RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV2;
-        RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
-
-        if (HAL_RCC_OscConfig (&RCC_OscInitStruct) != HAL_OK) {
-                Error_Handler ();
-        }
-
         RCC_ClkInitTypeDef RCC_ClkInitStruct;
-        RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK;
+        RCC_PeriphCLKInitTypeDef PeriphClkInit;
+
+        RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI14 | RCC_OSCILLATORTYPE_HSE;
+        RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+        RCC_OscInitStruct.HSI14State = RCC_HSI14_ON;
+        RCC_OscInitStruct.HSI14CalibrationValue = 16;
+        RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+        RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+        RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL3;
+        RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
+        HAL_RCC_OscConfig (&RCC_OscInitStruct);
+
+        RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+                | RCC_CLOCKTYPE_PCLK1;
         RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
         RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
         RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
         HAL_RCC_ClockConfig (&RCC_ClkInitStruct, FLASH_LATENCY_1);
 
+        PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB;
+        PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLLCLK;
+        HAL_RCCEx_PeriphCLKConfig (&PeriphClkInit);
+
         HAL_SYSTICK_Config (HAL_RCC_GetHCLKFreq () / 1000);
+
         HAL_SYSTICK_CLKSourceConfig (SYSTICK_CLKSOURCE_HCLK);
+
+        __SYSCFG_CLK_ENABLE ();
+        HAL_NVIC_SetPriority (SysTick_IRQn, 0, 0);
+        HAL_NVIC_EnableIRQ (SysTick_IRQn);
 }
 
 /**
@@ -405,5 +481,37 @@ void Error_Handler (void)
 {
         /* User may add here some code to deal with this error */
         while (1) {
+        }
+}
+
+/**
+ * @brief  Process user input (i.e. pressing the USER button on Nucleo board)
+ *         and send the updated acceleration data to the remote client.
+ *
+ * @param  AxesRaw_t* p_axes
+ * @retval None
+ */
+void User_Process (AxesRaw_t *p_axes)
+{
+        if (set_connectable) {
+                setConnectable ();
+                set_connectable = FALSE;
+        }
+
+        static int i = 0;
+
+        if (++i > 100000) {
+                i = 0;
+
+                if (connected) {
+                        /* Update acceleration data */
+                        p_axes->AXIS_X += 100;
+                        p_axes->AXIS_Y += 100;
+                        p_axes->AXIS_Z += 100;
+
+                        if (Acc_Update (p_axes)) {
+                                Error_Handler ();
+                        }
+                }
         }
 }

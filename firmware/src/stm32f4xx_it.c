@@ -1,4 +1,7 @@
 #include <stm32f0xx_hal.h>
+#include "hci.h"
+#include "config.h"
+#include "stm32f4xx_nucleo_bluenrg.h"
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Exceptions Handlers                         */
@@ -53,9 +56,7 @@ void SysTick_Handler (void)
         HAL_IncTick ();
 }
 
-//// Procedura obsługi. Miedzy innymi dla BLE sygnał RDYN - ale teraz chyba wyłącznie.
-//void EXTI4_IRQHandler (void)
-//{
-//    HAL_GPIO_EXTI_IRQHandler (GPIO_PIN_ACI_RDYN);
-//}
-//
+void BNRG_SPI_EXTI_IRQHandler (void)
+{
+        HCI_Isr ();
+}

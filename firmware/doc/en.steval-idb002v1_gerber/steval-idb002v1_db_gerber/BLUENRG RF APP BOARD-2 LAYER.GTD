@@ -1,0 +1,117 @@
+{Program	GerbTool for Layout
+	{Version	8.0}
+	{Created	Fri Apr 19 09:54:57 2013}
+}
+{Environment
+	{FilesPath  C:\DOCUMENTS AND SETTINGS\PLACIDO DE-VITA\DESKTOP\LAVORO\GIT\BLUENRG\RF PCB\LAYOUT 2 LAYER}
+}
+{Layers
+	{Layer  1
+		{File        BLUENRG RF APP BOARD-2 LAYER.TOP}
+		{LyrName     -}
+		{ApList      }
+		{Visibility  On}
+		{FlashColor  Green}
+		{DrawColor   Green}
+		{Type        Top}
+	}
+	{Layer  2
+		{File        BLUENRG RF APP BOARD-2 LAYER.BOT}
+		{LyrName     -}
+		{ApList      }
+		{Visibility  On}
+		{FlashColor  Red}
+		{DrawColor   Red}
+		{Type        Bottom}
+	}
+	{Layer  3
+		{File        BLUENRG RF APP BOARD-2 LAYER.SMT}
+		{LyrName     -}
+		{ApList      }
+		{Visibility  On}
+		{FlashColor  Cyan}
+		{DrawColor   Cyan}
+		{Type        Other}
+	}
+	{Layer  4
+		{File        BLUENRG RF APP BOARD-2 LAYER.SMB}
+		{LyrName     -}
+		{ApList      }
+		{Visibility  On}
+		{FlashColor  vga16yellow}
+		{DrawColor   vga16yellow}
+		{Type        Other}
+	}
+	{Layer  5
+		{File        BLUENRG RF APP BOARD-2 LAYER.SPT}
+		{LyrName     -}
+		{ApList      }
+		{Visibility  On}
+		{FlashColor  vga16cyan}
+		{DrawColor   vga16cyan}
+		{Type        Other}
+	}
+	{Layer  6
+		{File        BLUENRG RF APP BOARD-2 LAYER.SPB}
+		{LyrName     -}
+		{ApList      }
+		{Visibility  On}
+		{FlashColor  vga16red}
+		{DrawColor   vga16red}
+		{Type        Other}
+	}
+	{Layer  7
+		{File        BLUENRG RF APP BOARD-2 LAYER.SST}
+		{LyrName     -}
+		{ApList      }
+		{Visibility  On}
+		{FlashColor  White}
+		{DrawColor   White}
+		{Type        Other}
+	}
+	{Layer  8
+		{File        BLUENRG RF APP BOARD-2 LAYER.SSB}
+		{LyrName     -}
+		{ApList      }
+		{Visibility  On}
+		{FlashColor  Yellow}
+		{DrawColor   Yellow}
+		{Type        Other}
+	}
+	{Layer  9
+		{File        BLUENRG RF APP BOARD-2 LAYER.DRD}
+		{LyrName     -}
+		{ApList      }
+		{Visibility  On}
+		{FlashColor  Red}
+		{DrawColor   Red}
+		{Type        Other}
+	}
+	{Layer  10
+		{File        BLUENRG RF APP BOARD-2 LAYER.FAB}
+		{LyrName     -}
+		{ApList      }
+		{Visibility  On}
+		{FlashColor  col3}
+		{DrawColor   col3}
+		{Type        Other}
+	}
+}
+{Format Gerber
+	{Dialect           RS274X}
+	{m.n               3.4}
+	{Mode              Absolute}
+	{ZeroSuppression   Leading}
+	{Terminator        0x2a, 0xD, 0xA}
+	{Metric            No}
+	{Modal             No}
+	{UserData          Yes}
+	{Nets              No}
+	{Gcmds             Yes}
+	{CharSet           ASCII}
+	{Arcs360           No}
+	{ArcsModal         Yes}
+	{HonorCrLf         No}
+	{Comments          Yes}
+	{Flags             0}
+}

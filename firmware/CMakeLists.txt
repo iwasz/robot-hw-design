@@ -7,6 +7,9 @@ PROJECT (robot1)
 
 SET(USB_LIB "" CACHE STRING "")
 
+# +-----------------+
+# | My code         |
+# +-----------------+
 INCLUDE_DIRECTORIES("src/")
 LIST (APPEND APP_SOURCES "src/main.c")
 LIST (APPEND APP_SOURCES "src/stm32f4xx_it.c")
@@ -15,6 +18,63 @@ LIST (APPEND APP_SOURCES "src/system_stm32f0xx.c")
 LIST (APPEND APP_SOURCES "src/config.h")
 LIST (APPEND APP_SOURCES "src/stm32f0xx_hal_conf.h")
 
+# +-----------------+
+# | My ble impl.    |
+# +-----------------+
+# Includujemy, bo oczywiście jest includowanie na krzyż
+INCLUDE_DIRECTORIES("src/ble")
+LIST (APPEND APP_SOURCES "src/ble/clock.c")
+LIST (APPEND APP_SOURCES "src/ble/sensor_service.c")
+LIST (APPEND APP_SOURCES "src/ble/sensor_service.h")
+LIST (APPEND APP_SOURCES "src/ble/stm32_bluenrg_ble.c")
+LIST (APPEND APP_SOURCES "src/ble/stm32_bluenrg_ble.h")
+LIST (APPEND APP_SOURCES "src/ble/stm32f4xx_nucleo_bluenrg.h")
+
+# +-----------------+
+# | BlueNRG library |
+# +-----------------+
+SET (BLUE_NRG_ROOT "/home/iwasz/workspace/STM32CubeExpansion_BLE1_V2.6.1/Middlewares/ST/")
+INCLUDE_DIRECTORIES("${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes")
+#LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/hci/hci_dma_lp.c")
+#LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/hci/controller/bluenrg_utils_small.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/hci/controller/bluenrg_gap_aci.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/hci/controller/bluenrg_gatt_aci.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/hci/controller/bluenrg_hal_aci.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/hci/controller/bluenrg_updater_aci.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/hci/controller/bluenrg_l2cap_aci.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/hci/controller/bluenrg_utils.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/hci/controller/bluenrg_IFR.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/hci/hci.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/utils/osal.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/utils/gp_timer.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/utils/ble_list.c")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/hal.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/hal_types.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/ble_list.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/bluenrg_aci_const.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/bluenrg_gatt_aci.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/bluenrg_l2cap_aci.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/ble_clock.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/link_layer.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/bluenrg_utils.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/osal.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/bluenrg_gatt_server.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/bluenrg_hal_aci.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/hci_const.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/sm.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/bluenrg_aci.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/debug.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/bluenrg_gap_aci.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/ble_status.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/bluenrg_updater_aci.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/compiler.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/bluenrg_gap.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/hci.h")
+LIST (APPEND APP_SOURCES "${BLUE_NRG_ROOT}/STM32_BlueNRG/SimpleBlueNRG_HCI/includes/gp_timer.h")
+
+# +--------------+
+# | STM Cube     |
+# +--------------+
 LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc.c")
 LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c")
 LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.c")
@@ -56,7 +116,6 @@ LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0x
 LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart_ex.c")
 LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_usart.c")
 LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_wwdg.c")
-
 LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h")
 LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_iwdg.h")
 LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h")
@@ -105,9 +164,9 @@ LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0x
 LIST (APPEND APP_SOURCES "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h")
 
 LIST (APPEND APP_SOURCES "${STARTUP_CODE}")
+ADD_DEFINITIONS ("-DHSE_VALUE=${CRYSTAL_HZ}")
 
 #ADD_DEFINITIONS (-DUSE_USB_FS)
-#ADD_DEFINITIONS ("-DHSE_VALUE=${CRYSTAL_HZ}")
 #INCLUDE_DIRECTORIES("${USB_LIB}/Core/Inc")
 #INCLUDE_DIRECTORIES("${USB_LIB}/Class/CDC/Inc")
 #LIST (APPEND APP_SOURCES "${USB_LIB}/Core/Src/usbd_core.c")

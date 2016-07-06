@@ -683,14 +683,12 @@ Text HLabel 5950 5250 3    60   Output ~ 0
 aenbll
 Text HLabel 6050 5250 3    60   Output ~ 0
 benbll
-Text HLabel 6150 5250 3    60   Output ~ 0
-aenblr
 Text HLabel 6250 5250 3    60   Output ~ 0
+aenblr
+Text HLabel 6350 5250 3    60   Output ~ 0
 benblr
 Wire Wire Line
 	6050 5050 6050 5250
-Wire Wire Line
-	6150 5050 6150 5250
 Wire Wire Line
 	6250 5050 6250 5250
 Text HLabel 6150 2875 1    60   Output ~ 0
@@ -906,7 +904,7 @@ Text Label 7000 4400 0    60   ~ 0
 led3
 Text Label 7000 4300 0    60   ~ 0
 led4
-NoConn ~ 6350 5050
+NoConn ~ 6150 5050
 NoConn ~ 4950 3800
 Wire Wire Line
 	5650 3000 5650 2900
@@ -992,15 +990,6 @@ Text Label 4950 3600 2    60   ~ 0
 head1
 Text Label 4950 3700 2    60   ~ 0
 head2
-$Comp
-L CONN_01X01 P10
-U 1 1 5729A89D
-P 1475 1550
-F 0 "P10" H 1553 1591 50  0000 L CNN
-F 1 "CONN_01X01" H 1553 1500 50  0000 L CNN
-F 2 "iwasz:patlabor1" H 1475 1550 50  0001 C CNN
-F 3 "" H 1475 1550 50  0000 C CNN
-	1    1475 1550
-	1    0    0    -1  
-$EndComp
+Wire Wire Line
+	6350 5050 6350 5250
 $EndSCHEMATC
