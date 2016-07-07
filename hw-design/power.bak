@@ -228,11 +228,11 @@ Wire Wire Line
 	6300 3525 6000 3525
 Connection ~ 7225 3025
 Wire Wire Line
-	6125 2950 6125 3425
+	6125 2950 6125 3125
+Wire Wire Line
+	6125 3225 6125 3425
 Wire Wire Line
 	6300 3425 6300 3525
-Wire Wire Line
-	6000 3325 6550 3325
 Wire Wire Line
 	5600 3025 7450 3025
 Wire Wire Line
@@ -288,4 +288,21 @@ F 3 "" H 6125 2950 50  0000 C CNN
 $EndComp
 Text Notes 5475 2425 0    60   ~ 0
 TODO nie wlutowywać tego na początek, bo\nzapomniałem jak to ma działać. IMHO to powinno\ndziałać ok także bez tej diody.
+$Comp
+L CONN_01X02 P10
+U 1 1 577EA8A3
+P 6350 3175
+F 0 "P10" H 6428 3216 50  0000 L CNN
+F 1 "CONN_01X02" H 6428 3125 50  0000 L CNN
+F 2 "w_pin_strip:pin_strip_2" V 6178 3037 50  0001 R CNN
+F 3 "" H 6350 3175 50  0000 C CNN
+	1    6350 3175
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6000 3325 6550 3325
+Wire Wire Line
+	6125 3125 6150 3125
+Wire Wire Line
+	6125 3225 6150 3225
 $EndSCHEMATC
