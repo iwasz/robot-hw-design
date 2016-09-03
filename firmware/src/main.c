@@ -65,7 +65,7 @@ void setWinding2L (int power)
 void setWinding1R (int power)
 {
         // *
-        TIM2->CCR3 = abs (power);
+        TIM16->CCR3 = abs (power);
 
         if (power >= 0) {
                 GPIO_PHASE->BSRR |= GPIO_PIN_BPHASER << 16;
@@ -79,7 +79,7 @@ void setWinding1R (int power)
 
 void setWinding2R (int power)
 {
-        TIM2->CCR4 = abs (power);
+        TIM16->CCR4 = abs (power);
 
         if (power >= 0) {
                 GPIO_PHASE->BSRR |= GPIO_PIN_APHASER << 16;
@@ -132,11 +132,11 @@ int main (void)
         HAL_GPIO_Init (GPIO_ENBL, &gpioInitStruct);
 
         gpioInitStruct.Pin = GPIO_PIN_AENBLR;
-        gpioInitStruct.Alternate = GPIO_AF2_TIM2;
+        gpioInitStruct.Alternate = GPIO_AF2_TIM16;
         HAL_GPIO_Init (GPIO_ENBL, &gpioInitStruct);
 
         gpioInitStruct.Pin = GPIO_PIN_BENBLR;
-        gpioInitStruct.Alternate = GPIO_AF2_TIM2;
+        gpioInitStruct.Alternate = GPIO_AF2_TIM16;
         HAL_GPIO_Init (GPIO_ENBL, &gpioInitStruct);
 
         /*---------------------------------------------------------------------------*/
@@ -176,7 +176,7 @@ int main (void)
 
         // Enbl timers PRAWY MOTOR
         static TIM_HandleTypeDef rightMotorEnblTimer;
-        rightMotorEnblTimer.Instance = TIM2;
+        rightMotorEnblTimer.Instance = TIM16;
         rightMotorEnblTimer.Init.Period = PERIOD - 1;                                           // *
         rightMotorEnblTimer.Init.Prescaler = (uint32_t) (HAL_RCC_GetHCLKFreq () / 2000000) - 1; // *
         rightMotorEnblTimer.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;                        // *
@@ -185,7 +185,7 @@ int main (void)
 
         // *
         // Uwaga! Zpisać to!!! Msp init jest wywoływane PRZED TIM_Base_SetConfig
-        __HAL_RCC_TIM2_CLK_ENABLE ();
+        __HAL_RCC_TIM16_CLK_ENABLE ();
 
         if (HAL_TIM_PWM_Init (&rightMotorEnblTimer) != HAL_OK) {
                 Error_Handler ();
@@ -454,7 +454,6 @@ void SystemClock_Config (void)
 
         RCC_OscInitTypeDef RCC_OscInitStruct;
         RCC_ClkInitTypeDef RCC_ClkInitStruct;
-        RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
         RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI14 | RCC_OSCILLATORTYPE_HSE;
         RCC_OscInitStruct.HSEState = RCC_HSE_ON;
@@ -473,9 +472,10 @@ void SystemClock_Config (void)
         RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
         HAL_RCC_ClockConfig (&RCC_ClkInitStruct, FLASH_LATENCY_1);
 
-        PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB;
-        PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLLCLK;
-        HAL_RCCEx_PeriphCLKConfig (&PeriphClkInit);
+//        RCC_PeriphCLKInitTypeDef PeriphClkInit;
+//        PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB;
+//        PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLLCLK;
+//        HAL_RCCEx_PeriphCLKConfig (&PeriphClkInit);
 
         HAL_SYSTICK_Config (HAL_RCC_GetHCLKFreq () / 1000);
 
