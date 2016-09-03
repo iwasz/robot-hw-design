@@ -397,8 +397,8 @@ $Comp
 L C C30
 U 1 1 5725E354
 P 6600 4625
-F 0 "C30" H 6715 4671 50  0000 L CNN
-F 1 "100nF" H 6715 4580 50  0000 L CNN
+F 0 "C30" H 6525 4700 50  0000 L CNN
+F 1 "100nF" H 6525 4550 50  0000 L CNN
 F 2 "w_smd_cap:c_0603" H 6715 4534 50  0001 L CNN
 F 3 "" H 6600 4625 50  0000 C CNN
 	1    6600 4625
@@ -620,8 +620,8 @@ $Comp
 L C C29
 U 1 1 5725E361
 P 6400 4625
-F 0 "C29" H 6515 4671 50  0000 L CNN
-F 1 "1µF" H 6515 4580 50  0000 L CNN
+F 0 "C29" H 6325 4550 50  0000 L CNN
+F 1 "1µF" H 6350 4725 50  0000 L CNN
 F 2 "w_smd_cap:c_0603" H 6515 4534 50  0001 L CNN
 F 3 "" H 6400 4625 50  0000 C CNN
 	1    6400 4625
@@ -677,4 +677,6 @@ Wire Wire Line
 	8375 3250 8475 3250
 Text Notes 7250 2825 0    60   ~ 0
 http://www.ndk.com/en/products/search/crystal/1188854_1494.html\nhttp://pl.farnell.com/abracon/abs07-120-32-768khz-t/crystal-32-768khz-6pf-3-2-x-1/dp/2467864 (12.5pF)
+Text Notes 6925 5350 0    60   ~ 0
+http://pl.rs-online.com/web/p/krysztaly/7961479/ (12p)
 $EndSCHEMATC

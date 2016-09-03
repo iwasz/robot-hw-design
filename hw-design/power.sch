@@ -67,6 +67,7 @@ F 0 "U3" H 5500 3625 60  0000 C CNN
 F 1 "MCP73833" V 5400 3525 60  0000 C CNN
 F 2 "ref-packages:MSOP10" H 5500 3575 60  0001 C CNN
 F 3 "http://pl.farnell.com/microchip/mcp73833-fci-un/ic-charge-control-li-ion-1a-msop/dp/1605576" H 5500 3575 60  0001 C CNN
+F 4 "http://pl.rs-online.com/web/p/uklady-ladowania-akumulatorow/7240523/" H 5450 3525 60  0001 C CNN "Datasheet2"
 	1    5450 3525
 	1    0    0    -1  
 $EndComp

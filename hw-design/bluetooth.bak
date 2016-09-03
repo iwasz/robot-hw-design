@@ -677,4 +677,6 @@ Wire Wire Line
 	8375 3250 8475 3250
 Text Notes 7250 2825 0    60   ~ 0
 http://www.ndk.com/en/products/search/crystal/1188854_1494.html\nhttp://pl.farnell.com/abracon/abs07-120-32-768khz-t/crystal-32-768khz-6pf-3-2-x-1/dp/2467864 (12.5pF)
+Text Notes 6925 5350 0    60   ~ 0
+http://pl.rs-online.com/web/p/krysztaly/7961479/ (12p)
 $EndSCHEMATC

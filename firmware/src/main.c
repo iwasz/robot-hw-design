@@ -8,6 +8,9 @@
 #include "sensor_service.h"
 #include "stm32_bluenrg_ble.h"
 #include "bluenrg_utils.h"
+
+#undef BLE_ENABLED
+
 extern volatile uint8_t set_connectable;
 extern volatile int connected;
 extern AxesRaw_t axes_data;
@@ -255,7 +258,8 @@ int main (void)
                 Error_Handler ();
         }
 
-        /*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+#ifdef BLE_ENABLED
 
         //        while (1) {
         //                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED << 16;
@@ -277,7 +281,6 @@ int main (void)
 
         int ret;
 
-
         /* Initialize the BlueNRG SPI driver */
         BNRG_SPI_Init ();
 
@@ -286,7 +289,6 @@ int main (void)
 
         /* Reset BlueNRG hardware */
         BlueNRG_RST ();
-
 
         /* get the BlueNRG HW and FW versions */
         if (getBlueNRGVersion (&hwVersion, &fwVersion)) {
@@ -351,12 +353,24 @@ int main (void)
         if (aci_hal_set_tx_power_level (1, 7)) {
                 Error_Handler ();
         }
+#endif
 
         while (1) {
                 GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED << 16;
+
+#ifdef BLE_ENABLED
                 HCI_Process ();
+#else
+                HAL_Delay (500);
+#endif
+
                 GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED;
+
+#ifdef BLE_ENABLED
                 User_Process (&axes_data);
+#else
+                HAL_Delay (500);
+#endif
         }
 }
 
