@@ -9,7 +9,7 @@
 #include "stm32_bluenrg_ble.h"
 #include "bluenrg_utils.h"
 
-#undef BLE_ENABLED
+#define BLE_ENABLED
 
 extern volatile uint8_t set_connectable;
 extern volatile int connected;
@@ -295,7 +295,7 @@ int main (void)
                 Error_Handler ();
         }
 
-        GPIOB->BSRR |= GPIO_PIN_LED_LEFT_YELLOW;
+//        GPIOB->BSRR |= GPIO_PIN_LED_LEFT_YELLOW;
 
         /*
          * Reset BlueNRG again otherwise we won't
@@ -356,7 +356,7 @@ int main (void)
 #endif
 
         while (1) {
-                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED << 16;
+//                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED << 16;
 
 #ifdef BLE_ENABLED
                 HCI_Process ();
@@ -364,7 +364,7 @@ int main (void)
                 HAL_Delay (500);
 #endif
 
-                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED;
+//                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED;
 
 #ifdef BLE_ENABLED
                 User_Process (&axes_data);
@@ -512,20 +512,20 @@ void User_Process (AxesRaw_t *p_axes)
                 set_connectable = FALSE;
         }
 
-        static int i = 0;
+//        static int i = 0;
 
-        if (++i > 100000) {
-                i = 0;
+//        if (++i > 100000) {
+//                i = 0;
 
-                if (connected) {
-                        /* Update acceleration data */
-                        p_axes->AXIS_X += 100;
-                        p_axes->AXIS_Y += 100;
-                        p_axes->AXIS_Z += 100;
+//                if (connected) {
+//                        /* Update acceleration data */
+//                        p_axes->AXIS_X += 100;
+//                        p_axes->AXIS_Y += 100;
+//                        p_axes->AXIS_Z += 100;
 
-                        if (Acc_Update (p_axes)) {
-                                Error_Handler ();
-                        }
-                }
-        }
+//                        if (Acc_Update (p_axes)) {
+//                                Error_Handler ();
+//                        }
+//                }
+//        }
 }
