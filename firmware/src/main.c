@@ -28,8 +28,8 @@ static TIM_HandleTypeDef motorMicroStepTimer;
  * 1    : fastest forward
  * 127  : slowest forward
  */
-int8_t leftMotorSpeed = 0;
-int8_t rightMotorSpeed = 0;
+int8_t leftMotorSpeed = 20;
+int8_t rightMotorSpeed = -20;
 
 /*****************************************************************************/
 
@@ -68,10 +68,10 @@ void setWinding1R (int power)
         TIM2->CCR3 = abs (power);
 
         if (power >= 0) {
-                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASER << 16;
+                GPIO_PHASE->BSRR |= GPIO_PIN_APHASER << 16;
         }
         else {
-                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASER;
+                GPIO_PHASE->BSRR |= GPIO_PIN_APHASER;
         }
 }
 
@@ -82,11 +82,12 @@ void setWinding2R (int power)
         TIM2->CCR4 = abs (power);
 
         if (power >= 0) {
-                GPIO_PHASE->BSRR |= GPIO_PIN_APHASER << 16;
+                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASER << 16;
         }
         else {
-                GPIO_PHASE->BSRR |= GPIO_PIN_APHASER;
+                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASER;
         }
+
 }
 
 /*****************************************************************************/
@@ -375,8 +376,7 @@ int main (void)
 }
 
 /**
- * Stop-watch ISR.
- * Here the value displayed is updated. 100Hz
+ * Opisać
  */
 void TIM14_IRQHandler (void)
 {
