@@ -22,11 +22,11 @@ static void SystemClock_Config (void);
 static TIM_HandleTypeDef motorMicroStepTimer;
 
 /**
- * -128 : slowest backwards
- * -1   : fastest backwards
+ * -127 : fastest backwards
+ * -1   : slowest backwards
  * 0    : stop
- * 1    : fastest forward
- * 127  : slowest forward
+ * 1    : slowest forward
+ * 127  : fastest forward
  */
 int8_t leftMotorSpeed = 0;
 int8_t rightMotorSpeed = 0;
@@ -376,7 +376,7 @@ int main (void)
 }
 
 /**
- * Opisać
+ * Ten timer generuje kolejne mikro-kroki do silnika.
  */
 void TIM14_IRQHandler (void)
 {
@@ -385,7 +385,10 @@ void TIM14_IRQHandler (void)
         static int16_t rightMicroStepNum = 0;
         static uint32_t prescaler = 0; // So big type on purpose
 
-        if (leftMotorSpeed && (prescaler % abs (leftMotorSpeed)) == 0) {
+        int8_t lms = 127 - abs (leftMotorSpeed);
+        int8_t rms = 127 - abs (rightMotorSpeed);
+
+        if (leftMotorSpeed && (prescaler % lms) == 0) {
 
                 if (leftMotorSpeed > 0) {
                         ++leftMicroStepNum;
@@ -403,18 +406,18 @@ void TIM14_IRQHandler (void)
                 setWinding2L (SINE[leftMicroStepNum % 128]);
         }
 
-        if (rightMotorSpeed && (prescaler % abs (rightMotorSpeed)) == 0) {
+        if (rightMotorSpeed && (prescaler % rms) == 0) {
 
                 if (rightMotorSpeed > 0) {
-                        ++rightMicroStepNum;
-                        rightMicroStepNum %= 640;
-                }
-                else {
                         --rightMicroStepNum;
 
                         if (rightMicroStepNum < 0) {
                                 rightMicroStepNum = 640;
                         }
+                }
+                else {
+                        ++rightMicroStepNum;
+                        rightMicroStepNum %= 640;
                 }
 
                 setWinding1R (COSINE[rightMicroStepNum % 128]);
