@@ -124,8 +124,6 @@ Wire Wire Line
 	3400 3750 3400 3825
 Wire Wire Line
 	4675 3425 4850 3425
-Wire Wire Line
-	4675 2700 4675 3425
 Connection ~ 4675 3325
 Wire Wire Line
 	4175 3525 4850 3525
@@ -198,8 +196,8 @@ Wire Wire Line
 Wire Wire Line
 	4775 3950 5300 3950
 Connection ~ 4775 3950
-Text Notes 5300 4150 0    60   ~ 0
-300mA
+Text Notes 4375 4575 0    60   ~ 0
+300mA, 4k7 = 210mA, Ireg = 1000V/Rreg\nGdy bateria nie ma termometru, to wlutować R18
 $Comp
 L CONN_01X03 P3
 U 1 1 5723EADA
@@ -217,12 +215,12 @@ Connection ~ 6125 3325
 $Comp
 L GND #PWR26
 U 1 1 5723EADB
-P 6550 3575
-F 0 "#PWR26" H 6550 3325 50  0001 C CNN
-F 1 "GND" H 6644 3538 50  0000 L CNN
-F 2 "" H 6550 3575 60  0000 C CNN
-F 3 "" H 6550 3575 60  0000 C CNN
-	1    6550 3575
+P 6550 4025
+F 0 "#PWR26" H 6550 3775 50  0001 C CNN
+F 1 "GND" H 6644 3988 50  0000 L CNN
+F 2 "" H 6550 4025 60  0000 C CNN
+F 3 "" H 6550 4025 60  0000 C CNN
+	1    6550 4025
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -233,11 +231,9 @@ Wire Wire Line
 Wire Wire Line
 	6125 3225 6125 3425
 Wire Wire Line
-	6300 3425 6300 3525
+	6300 3425 6300 3575
 Wire Wire Line
-	5600 3025 7450 3025
-Wire Wire Line
-	6550 3575 6550 3525
+	6550 3525 6550 4025
 $Comp
 L AP111733 U4
 U 1 1 57241BB2
@@ -249,32 +245,15 @@ F 3 "" H 7850 2775 50  0000 C CNN
 	1    7750 3025
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	7225 2700 7225 3150
 NoConn ~ 6000 3625
 Wire Wire Line
 	6300 3425 6550 3425
-$Comp
-L D_Schottky D5
-U 1 1 5724AD72
-P 6400 2700
-F 0 "D5" H 6400 2484 50  0000 C CNN
-F 1 "D_Schottky" H 6400 2575 50  0000 C CNN
-F 2 "iwasz:sod123-pins21" H 6400 2700 50  0001 C CNN
-F 3 "http://pl.farnell.com/multicomp/1n4148ws/diode-h-speed-100v-0-15a-sod323/dp/1466524" H 6400 2700 50  0001 C CNN
-	1    6400 2700
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	4675 2700 6250 2700
-Wire Wire Line
-	6550 2700 7225 2700
 Connection ~ 6125 3025
 Text HLabel 4175 3525 0    60   Output ~ 0
 progress
 Text HLabel 4175 3625 0    60   Output ~ 0
 complete
-Text HLabel 5600 3025 0    60   Output ~ 0
+Text HLabel 7225 2850 1    60   Output ~ 0
 sense
 $Comp
 L +BATT #PWR25
@@ -287,8 +266,6 @@ F 3 "" H 6125 2950 50  0000 C CNN
 	1    6125 2950
 	1    0    0    -1  
 $EndComp
-Text Notes 5475 2425 0    60   ~ 0
-TODO nie wlutowywać tego na początek, bo\nzapomniałem jak to ma działać. IMHO to powinno\ndziałać ok także bez tej diody.
 $Comp
 L CONN_01X02 P10
 U 1 1 577EA8A3
@@ -306,4 +283,27 @@ Wire Wire Line
 	6125 3125 6150 3125
 Wire Wire Line
 	6125 3225 6150 3225
+$Comp
+L R R18
+U 1 1 57D567E4
+P 6300 3725
+F 0 "R18" V 6380 3725 50  0000 C CNN
+F 1 "10k" V 6300 3725 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 6230 3725 30  0001 C CNN
+F 3 "" H 6300 3725 30  0000 C CNN
+	1    6300 3725
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	6300 3875 6550 3875
+Connection ~ 6550 3875
+Connection ~ 6300 3525
+Text Notes 6425 3800 1    60   ~ 0
+opt
+Wire Wire Line
+	6125 3025 7450 3025
+Wire Wire Line
+	7225 2850 7225 3150
+Wire Wire Line
+	4675 3425 4675 3325
 $EndSCHEMATC

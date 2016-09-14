@@ -235,7 +235,7 @@ int main (void)
         HAL_TIM_PWM_Start (&rightMotorEnblTimer, TIM_CHANNEL_3);
 
         /*---------------------------------------------------------------------------*/
-        // TIMER, which advances themotors one micro-step in either directions. (640 microsteps)
+        // TIMER, which advances themotors one micro-step in either directions. (MICRO_STEPS_PER_REV microsteps; originally 640)
 
         motorMicroStepTimer.Instance = TIM14;
         motorMicroStepTimer.Init.Period = 100;
@@ -392,18 +392,18 @@ void TIM14_IRQHandler (void)
 
                 if (leftMotorSpeed > 0) {
                         ++leftMicroStepNum;
-                        leftMicroStepNum %= 640;
+                        leftMicroStepNum %= MICRO_STEPS_PER_REV;
                 }
                 else {
                         --leftMicroStepNum;
 
                         if (leftMicroStepNum < 0) {
-                                leftMicroStepNum = 640;
+                                leftMicroStepNum = MICRO_STEPS_PER_REV;
                         }
                 }
 
-                setWinding1L (COSINE[leftMicroStepNum % 128]);
-                setWinding2L (SINE[leftMicroStepNum % 128]);
+                setWinding1L (COSINE[leftMicroStepNum % SINE_SIZE]);
+                setWinding2L (SINE[leftMicroStepNum % SINE_SIZE]);
         }
 
         if (rightMotorSpeed && (prescaler % rms) == 0) {
@@ -412,16 +412,16 @@ void TIM14_IRQHandler (void)
                         --rightMicroStepNum;
 
                         if (rightMicroStepNum < 0) {
-                                rightMicroStepNum = 640;
+                                rightMicroStepNum = MICRO_STEPS_PER_REV;
                         }
                 }
                 else {
                         ++rightMicroStepNum;
-                        rightMicroStepNum %= 640;
+                        rightMicroStepNum %= MICRO_STEPS_PER_REV;
                 }
 
-                setWinding1R (COSINE[rightMicroStepNum % 128]);
-                setWinding2R (SINE[rightMicroStepNum % 128]);
+                setWinding1R (COSINE[rightMicroStepNum % SINE_SIZE]);
+                setWinding2R (SINE[rightMicroStepNum % SINE_SIZE]);
         }
 
         ++prescaler;
