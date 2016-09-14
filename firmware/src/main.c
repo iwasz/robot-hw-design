@@ -9,7 +9,7 @@
 #include "stm32_bluenrg_ble.h"
 #include "bluenrg_utils.h"
 
-#undef BLE_ENABLED
+#define BLE_ENABLED
 
 extern volatile uint8_t set_connectable;
 extern volatile int connected;
@@ -22,11 +22,11 @@ static void SystemClock_Config (void);
 static TIM_HandleTypeDef motorMicroStepTimer;
 
 /**
- * -128 : slowest backwards
- * -1   : fastest backwards
+ * -127 : fastest backwards
+ * -1   : slowest backwards
  * 0    : stop
- * 1    : fastest forward
- * 127  : slowest forward
+ * 1    : slowest forward
+ * 127  : fastest forward
  */
 int8_t leftMotorSpeed = 0;
 int8_t rightMotorSpeed = 0;
@@ -68,10 +68,10 @@ void setWinding1R (int power)
         TIM16->CCR3 = abs (power);
 
         if (power >= 0) {
-                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASER << 16;
+                GPIO_PHASE->BSRR |= GPIO_PIN_APHASER << 16;
         }
         else {
-                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASER;
+                GPIO_PHASE->BSRR |= GPIO_PIN_APHASER;
         }
 }
 
@@ -82,11 +82,12 @@ void setWinding2R (int power)
         TIM16->CCR4 = abs (power);
 
         if (power >= 0) {
-                GPIO_PHASE->BSRR |= GPIO_PIN_APHASER << 16;
+                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASER << 16;
         }
         else {
-                GPIO_PHASE->BSRR |= GPIO_PIN_APHASER;
+                GPIO_PHASE->BSRR |= GPIO_PIN_BPHASER;
         }
+
 }
 
 /*****************************************************************************/
@@ -234,7 +235,7 @@ int main (void)
         HAL_TIM_PWM_Start (&rightMotorEnblTimer, TIM_CHANNEL_3);
 
         /*---------------------------------------------------------------------------*/
-        // TIMER, which advances themotors one micro-step in either directions. (640 microsteps)
+        // TIMER, which advances themotors one micro-step in either directions. (MICRO_STEPS_PER_REV microsteps; originally 640)
 
         motorMicroStepTimer.Instance = TIM14;
         motorMicroStepTimer.Init.Period = 100;
@@ -295,7 +296,7 @@ int main (void)
                 Error_Handler ();
         }
 
-        GPIOB->BSRR |= GPIO_PIN_LED_LEFT_YELLOW;
+//        GPIOB->BSRR |= GPIO_PIN_LED_LEFT_YELLOW;
 
         /*
          * Reset BlueNRG again otherwise we won't
@@ -356,7 +357,7 @@ int main (void)
 #endif
 
         while (1) {
-                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED << 16;
+//                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED << 16;
 
 #ifdef BLE_ENABLED
                 HCI_Process ();
@@ -364,7 +365,7 @@ int main (void)
                 HAL_Delay (500);
 #endif
 
-                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED;
+//                GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED;
 
 #ifdef BLE_ENABLED
                 User_Process (&axes_data);
@@ -375,8 +376,7 @@ int main (void)
 }
 
 /**
- * Stop-watch ISR.
- * Here the value displayed is updated. 100Hz
+ * Ten timer generuje kolejne mikro-kroki do silnika.
  */
 void TIM14_IRQHandler (void)
 {
@@ -385,40 +385,43 @@ void TIM14_IRQHandler (void)
         static int16_t rightMicroStepNum = 0;
         static uint32_t prescaler = 0; // So big type on purpose
 
-        if (leftMotorSpeed && (prescaler % abs (leftMotorSpeed)) == 0) {
+        int8_t lms = 127 - abs (leftMotorSpeed);
+        int8_t rms = 127 - abs (rightMotorSpeed);
+
+        if (leftMotorSpeed && (prescaler % lms) == 0) {
 
                 if (leftMotorSpeed > 0) {
                         ++leftMicroStepNum;
-                        leftMicroStepNum %= 640;
+                        leftMicroStepNum %= MICRO_STEPS_PER_REV;
                 }
                 else {
                         --leftMicroStepNum;
 
                         if (leftMicroStepNum < 0) {
-                                leftMicroStepNum = 640;
+                                leftMicroStepNum = MICRO_STEPS_PER_REV;
                         }
                 }
 
-                setWinding1L (COSINE[leftMicroStepNum % 128]);
-                setWinding2L (SINE[leftMicroStepNum % 128]);
+                setWinding1L (COSINE[leftMicroStepNum % SINE_SIZE]);
+                setWinding2L (SINE[leftMicroStepNum % SINE_SIZE]);
         }
 
-        if (rightMotorSpeed && (prescaler % abs (rightMotorSpeed)) == 0) {
+        if (rightMotorSpeed && (prescaler % rms) == 0) {
 
                 if (rightMotorSpeed > 0) {
-                        ++rightMicroStepNum;
-                        rightMicroStepNum %= 640;
-                }
-                else {
                         --rightMicroStepNum;
 
                         if (rightMicroStepNum < 0) {
-                                rightMicroStepNum = 640;
+                                rightMicroStepNum = MICRO_STEPS_PER_REV;
                         }
                 }
+                else {
+                        ++rightMicroStepNum;
+                        rightMicroStepNum %= MICRO_STEPS_PER_REV;
+                }
 
-                setWinding1R (COSINE[rightMicroStepNum % 128]);
-                setWinding2R (SINE[rightMicroStepNum % 128]);
+                setWinding1R (COSINE[rightMicroStepNum % SINE_SIZE]);
+                setWinding2R (SINE[rightMicroStepNum % SINE_SIZE]);
         }
 
         ++prescaler;
@@ -512,20 +515,20 @@ void User_Process (AxesRaw_t *p_axes)
                 set_connectable = FALSE;
         }
 
-        static int i = 0;
+//        static int i = 0;
 
-        if (++i > 100000) {
-                i = 0;
+//        if (++i > 100000) {
+//                i = 0;
 
-                if (connected) {
-                        /* Update acceleration data */
-                        p_axes->AXIS_X += 100;
-                        p_axes->AXIS_Y += 100;
-                        p_axes->AXIS_Z += 100;
+//                if (connected) {
+//                        /* Update acceleration data */
+//                        p_axes->AXIS_X += 100;
+//                        p_axes->AXIS_Y += 100;
+//                        p_axes->AXIS_Z += 100;
 
-                        if (Acc_Update (p_axes)) {
-                                Error_Handler ();
-                        }
-                }
-        }
+//                        if (Acc_Update (p_axes)) {
+//                                Error_Handler ();
+//                        }
+//                }
+//        }
 }

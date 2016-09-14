@@ -59,8 +59,11 @@ volatile uint16_t connection_handle = 0;
 volatile uint8_t notification_enabled = FALSE;
 volatile AxesRaw_t axes_data = { 0, 0, 0 };
 uint16_t sampleServHandle, TXCharHandle, RXCharHandle;
-uint16_t accServHandle, freeFallCharHandle, accCharHandle;
+uint16_t robotControllServHandle, freeFallCharHandle, accCharHandle, leftMotorCharHandle, rightMotorCharHandle, lightsCharHandle;
 uint16_t envSensServHandle, tempCharHandle, pressCharHandle, humidityCharHandle;
+
+extern int8_t leftMotorSpeed;
+extern int8_t rightMotorSpeed;
 
 #if NEW_SERVICES
 uint16_t timeServHandle, secondsCharHandle, minuteCharHandle;
@@ -160,49 +163,73 @@ extern uint8_t bnrg_expansion_board;
  */
 tBleStatus Add_Acc_Service (void)
 {
-        uint8_t uuid[16];
+        //        uint8_t uuid[16];
         tBleStatus ret;
 
         /*---------------------------------------------------------------------------*/
 
-        uint16_t secondaryServiceHandle;
-        uint8_t secondaryServiceUuid[16] = { 0x2b, 0xc5, 0xd5, 0xa5, 0x02, 0x00, 0xb4, 0x9a, 0xe1, 0x11, 0x3a, 0xcf, 0x80, 0x6e, 0x36, 0x02 };
+        //        uint16_t secondaryServiceHandle;
+        //        uint8_t secondaryServiceUuid[16] = { 0x2b, 0xc5, 0xd5, 0xa5, 0x02, 0x00, 0xb4, 0x9a, 0xe1, 0x11, 0x3a, 0xcf, 0x80, 0x6e, 0x36, 0x02 };
 
-        ret = aci_gatt_add_serv (UUID_TYPE_128, secondaryServiceUuid, SECONDARY_SERVICE, 7, &secondaryServiceHandle);
-
-        if (ret != BLE_STATUS_SUCCESS) {
-                goto fail;
-        }
-
-        /*---------------------------------------------------------------------------*/
-
-        uint8_t primaryServiceUuid[16] = { 0x1b, 0xc5, 0xd5, 0xa5, 0x02, 0x00, 0xb4, 0x9a, 0xe1, 0x11, 0x3a, 0xcf, 0x80, 0x6e, 0x36, 0x02 };
-        ret = aci_gatt_add_serv (UUID_TYPE_128, primaryServiceUuid, PRIMARY_SERVICE, 7, &accServHandle);
-
-        if (ret != BLE_STATUS_SUCCESS) {
-                goto fail;
-        }
-
-        uint16_t includedServiceHandle;
-        ret = aci_gatt_include_service (accServHandle, secondaryServiceHandle, secondaryServiceHandle, UUID_TYPE_128, secondaryServiceUuid,
-                                        &includedServiceHandle);
-
-        /*---------------------------------------------------------------------------*/
-
-        //        COPY_FREE_FALL_UUID (uuid);
-        //        ret = aci_gatt_add_char (accServHandle, UUID_TYPE_128, uuid, 1, CHAR_PROP_NOTIFY, ATTR_PERMISSION_NONE, 0, 16, 0, &freeFallCharHandle);
+        //        ret = aci_gatt_add_serv (UUID_TYPE_128, secondaryServiceUuid, SECONDARY_SERVICE, 7, &secondaryServiceHandle);
 
         //        if (ret != BLE_STATUS_SUCCESS) {
         //                goto fail;
         //        }
 
-        //        COPY_ACC_UUID (uuid);
-        //        ret = aci_gatt_add_char (accServHandle, UUID_TYPE_128, uuid, 6, /*CHAR_PROP_NOTIFY | CHAR_PROP_READ |*/ CHAR_PROP_SIGNED_WRITE,
-        //        ATTR_PERMISSION_NONE,
-        //                                 GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP, 16, 0, &accCharHandle);
+        /*---------------------------------------------------------------------------*/
 
-        ret = aci_gatt_add_char (accServHandle, UUID_TYPE_128, uuid, 6, CHAR_PROP_READ | CHAR_PROP_NOTIFY | CHAR_PROP_INDICATE, ATTR_PERMISSION_NONE,
-                                 GATT_NOTIFY_ATTRIBUTE_WRITE, 16, 1, &accCharHandle);
+        uint8_t primaryServiceUuid[16] = { 0x1b, 0xc5, 0xd5, 0xa5, 0x02, 0x00, 0xb4, 0x9a, 0xe1, 0x11, 0x3a, 0xcf, 0x80, 0x6e, 0x36, 0x02 };
+        ret = aci_gatt_add_serv (UUID_TYPE_128, primaryServiceUuid, PRIMARY_SERVICE, 7, &robotControllServHandle);
+
+        if (ret != BLE_STATUS_SUCCESS) {
+                goto fail;
+        }
+
+        //        uint16_t includedServiceHandle;
+        //        ret = aci_gatt_include_service (accServHandle, secondaryServiceHandle, secondaryServiceHandle, UUID_TYPE_128, secondaryServiceUuid,
+        //                                        &includedServiceHandle);
+
+        /*---------------------------------------------------------------------------*/
+
+        //        //        COPY_FREE_FALL_UUID (uuid);
+        //        //        ret = aci_gatt_add_char (accServHandle, UUID_TYPE_128, uuid, 1, CHAR_PROP_NOTIFY, ATTR_PERMISSION_NONE, 0, 16, 0, &freeFallCharHandle);
+
+        //        //        if (ret != BLE_STATUS_SUCCESS) {
+        //        //                goto fail;
+        //        //        }
+
+        //        //        COPY_ACC_UUID (uuid);
+        //        //        ret = aci_gatt_add_char (accServHandle, UUID_TYPE_128, uuid, 6, /*CHAR_PROP_NOTIFY | CHAR_PROP_READ |*/ CHAR_PROP_SIGNED_WRITE,
+        //        //        ATTR_PERMISSION_NONE,
+        //        //                                 GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP, 16, 0, &accCharHandle);
+
+        //        ret = aci_gatt_add_char (accServHandle, UUID_TYPE_128, uuid, 6, CHAR_PROP_READ | CHAR_PROP_NOTIFY | CHAR_PROP_INDICATE, ATTR_PERMISSION_NONE,
+        //                                 GATT_NOTIFY_ATTRIBUTE_WRITE, 16, 1, &accCharHandle);
+
+        //        if (ret != BLE_STATUS_SUCCESS) {
+        //                goto fail;
+        //        }
+
+        uint8_t leftMotorCharUuid[16] = { 0x1c, 0xc5, 0xd5, 0xa5, 0x02, 0x00, 0xb4, 0x9a, 0xe1, 0x11, 0x3a, 0xcf, 0x80, 0x6e, 0x36, 0x02 };
+        ret = aci_gatt_add_char (robotControllServHandle, UUID_TYPE_128, leftMotorCharUuid, 1, CHAR_PROP_WRITE, ATTR_PERMISSION_NONE,
+                                 GATT_NOTIFY_ATTRIBUTE_WRITE, 16, 1, &leftMotorCharHandle);
+
+        if (ret != BLE_STATUS_SUCCESS) {
+                goto fail;
+        }
+
+        uint8_t rightMotorCharUuid[16] = { 0x1d, 0xc5, 0xd5, 0xa5, 0x02, 0x00, 0xb4, 0x9a, 0xe1, 0x11, 0x3a, 0xcf, 0x80, 0x6e, 0x36, 0x02 };
+        ret = aci_gatt_add_char (robotControllServHandle, UUID_TYPE_128, rightMotorCharUuid, 1, CHAR_PROP_WRITE, ATTR_PERMISSION_NONE,
+                                 GATT_NOTIFY_ATTRIBUTE_WRITE, 16, 1, &rightMotorCharHandle);
+
+        if (ret != BLE_STATUS_SUCCESS) {
+                goto fail;
+        }
+
+        uint8_t lightsCharUuid[16] = { 0x1e, 0xc5, 0xd5, 0xa5, 0x02, 0x00, 0xb4, 0x9a, 0xe1, 0x11, 0x3a, 0xcf, 0x80, 0x6e, 0x36, 0x02 };
+        ret = aci_gatt_add_char (robotControllServHandle, UUID_TYPE_128, lightsCharUuid, 1, CHAR_PROP_WRITE, ATTR_PERMISSION_NONE,
+                                 GATT_NOTIFY_ATTRIBUTE_WRITE, 16, 1, &lightsCharHandle);
 
         if (ret != BLE_STATUS_SUCCESS) {
                 goto fail;
@@ -229,7 +256,7 @@ tBleStatus Free_Fall_Notify (void)
         tBleStatus ret;
 
         val = 0x01;
-        ret = aci_gatt_update_char_value (accServHandle, freeFallCharHandle, 0, 1, &val);
+        ret = aci_gatt_update_char_value (robotControllServHandle, freeFallCharHandle, 0, 1, &val);
 
         if (ret != BLE_STATUS_SUCCESS) {
                 PRINTF ("Error while updating ACC characteristic.\n");
@@ -252,7 +279,7 @@ tBleStatus Acc_Update (AxesRaw_t *data)
         STORE_LE_16 (buff + 2, data->AXIS_Y);
         STORE_LE_16 (buff + 4, data->AXIS_Z);
 
-        if (aci_gatt_update_char_value (accServHandle, accCharHandle, 0, 6, buff)) {
+        if (aci_gatt_update_char_value (robotControllServHandle, accCharHandle, 0, 6, buff)) {
                 Error_Handler ();
         }
 
@@ -427,13 +454,13 @@ void setConnectable (void)
                 Error_Handler ();
         }
 
-//        if (aci_gap_set_discoverable (ADV_IND, 0, 0, PUBLIC_ADDR, NO_WHITE_LIST_USE, sizeof (local_name), local_name, 0, NULL, 0, 0)) {
-//                Error_Handler ();
-//        }
+        //        if (aci_gap_set_discoverable (ADV_IND, 0, 0, PUBLIC_ADDR, NO_WHITE_LIST_USE, sizeof (local_name), local_name, 0, NULL, 0, 0)) {
+        //                Error_Handler ();
+        //        }
 
-                if (aci_gap_set_discoverable (ADV_IND, (800 * 1000) / 625, (1000 * 1000) / 625, PUBLIC_ADDR, NO_WHITE_LIST_USE, sizeof (local_name), local_name, 0, NULL, (100 * 1000) / 1250, (300 * 1000) / 1250)) {
-                        Error_Handler ();
-                }
+        if (aci_gap_set_discoverable (ADV_IND, (800 * 1000) / 625, (1000 * 1000) / 625, PUBLIC_ADDR, NO_WHITE_LIST_USE, sizeof (local_name), local_name, 0, NULL, (100 * 1000) / 1250, (300 * 1000) / 1250)) {
+                Error_Handler ();
+        }
 }
 
 /**
@@ -602,8 +629,47 @@ void HCI_Event_CB (void *pckt)
 
                 case EVT_BLUE_GATT_ATTRIBUTE_MODIFIED: {
                         evt_gatt_attr_modified_IDB04A1 *evt = (evt_gatt_attr_modified_IDB04A1 *)blue_evt->data;
-                        printf ("EVT_BLUE_GATT_ATTRIBUTE_MODIFIED attr_handle : %x, len %d, dta[0] : %d\n", evt->attr_handle, evt->data_length,
-                                evt->att_data[0]);
+                        // printf ("EVT_BLUE_GATT_ATTRIBUTE_MODIFIED attr_handle : %x, len %d, dta[0] : %d\n", evt->attr_handle, evt->data_length,
+                        // evt->att_data[0]);
+
+                        if (evt->attr_handle == leftMotorCharHandle + 1) {
+                                leftMotorSpeed = (int8_t)*evt->att_data;
+                        }
+                        else if (evt->attr_handle == rightMotorCharHandle + 1) {
+                                rightMotorSpeed = (int8_t)*evt->att_data;
+                        }
+                        else if (evt->attr_handle == lightsCharHandle + 1 && evt->data_length == 1) {
+                                uint8_t lights = *evt->att_data;
+
+                                if (lights & 0x01) {
+                                        GPIOB->BSRR |= GPIO_PIN_LED_LEFT_YELLOW;
+                                }
+                                else {
+                                        GPIOB->BSRR |= GPIO_PIN_LED_LEFT_YELLOW << 16;
+                                }
+
+                                if (lights & 0x02) {
+                                        GPIOB->BSRR |= GPIO_PIN_LED_RIGHT_YELLOW;
+                                }
+                                else {
+                                        GPIOB->BSRR |= GPIO_PIN_LED_RIGHT_YELLOW << 16;
+                                }
+
+                                if (lights & 0x04) {
+                                        GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED;
+                                }
+                                else {
+                                        GPIOB->BSRR |= GPIO_PIN_LED_LEFT_RED << 16;
+                                }
+
+                                if (lights & 0x08) {
+                                        GPIOB->BSRR |= GPIO_PIN_LED_RIGHT_RED;
+                                }
+                                else {
+                                        GPIOB->BSRR |= GPIO_PIN_LED_RIGHT_RED << 16;
+                                }
+                        }
+
                         break;
                 }
 
