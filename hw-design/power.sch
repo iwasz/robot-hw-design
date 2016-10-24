@@ -34,7 +34,7 @@ EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 5
+Sheet 2 6
 Title ""
 Date ""
 Rev ""
@@ -45,21 +45,6 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L CP C15
-U 1 1 5723EAD0
-P 8175 3300
-F 0 "C15" H 8200 3400 50  0000 L CNN
-F 1 "10µF" H 8200 3200 50  0000 L CNN
-F 2 "w_smd_cap:c_tant_B" H 8213 3150 30  0001 C CNN
-F 3 "" H 8175 3300 60  0000 C CNN
-	1    8175 3300
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	8050 3025 8350 3025
-Wire Wire Line
-	8175 3025 8175 3150
-$Comp
 L MCP73833 U3
 U 1 1 5723EAD1
 P 5450 3525
@@ -69,17 +54,6 @@ F 2 "ref-packages:MSOP10" H 5500 3575 60  0001 C CNN
 F 3 "http://pl.farnell.com/microchip/mcp73833-fci-un/ic-charge-control-li-ion-1a-msop/dp/1605576" H 5500 3575 60  0001 C CNN
 F 4 "http://pl.rs-online.com/web/p/uklady-ladowania-akumulatorow/7240523/" H 5450 3525 60  0001 C CNN "Datasheet2"
 	1    5450 3525
-	1    0    0    -1  
-$EndComp
-$Comp
-L CP C14
-U 1 1 5723EAD2
-P 7225 3300
-F 0 "C14" H 7343 3346 50  0000 L CNN
-F 1 "10µF" H 7343 3254 50  0000 L CNN
-F 2 "w_smd_cap:c_tant_B" H 7263 3150 30  0001 C CNN
-F 3 "" H 7225 3300 60  0000 C CNN
-	1    7225 3300
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -98,10 +72,10 @@ $EndComp
 Wire Wire Line
 	3400 3325 3400 3450
 $Comp
-L +5V #PWR22
+L +5V #PWR8
 U 1 1 5723EAD4
 P 3225 3325
-F 0 "#PWR22" H 3225 3175 50  0001 C CNN
+F 0 "#PWR8" H 3225 3175 50  0001 C CNN
 F 1 "+5V" H 3225 3465 50  0000 C CNN
 F 2 "" H 3225 3325 60  0000 C CNN
 F 3 "" H 3225 3325 60  0000 C CNN
@@ -110,10 +84,10 @@ F 3 "" H 3225 3325 60  0000 C CNN
 $EndComp
 Connection ~ 3400 3325
 $Comp
-L GND #PWR23
+L GND #PWR9
 U 1 1 5723EAD5
 P 3400 3825
-F 0 "#PWR23" H 3400 3575 50  0001 C CNN
+F 0 "#PWR9" H 3400 3575 50  0001 C CNN
 F 1 "GND" H 3400 3675 50  0000 C CNN
 F 2 "" H 3400 3825 60  0000 C CNN
 F 3 "" H 3400 3825 60  0000 C CNN
@@ -130,10 +104,10 @@ Wire Wire Line
 Wire Wire Line
 	4175 3625 4850 3625
 $Comp
-L GND #PWR24
+L GND #PWR10
 U 1 1 5723EAD6
 P 4775 4125
-F 0 "#PWR24" H 4775 3875 50  0001 C CNN
+F 0 "#PWR10" H 4775 3875 50  0001 C CNN
 F 1 "GND" H 4775 3975 50  0000 C CNN
 F 2 "" H 4775 4125 60  0000 C CNN
 F 3 "" H 4775 4125 60  0000 C CNN
@@ -145,44 +119,34 @@ Wire Wire Line
 Wire Wire Line
 	4775 3725 4775 4125
 $Comp
-L GND #PWR27
+L GND #PWR13
 U 1 1 5723EAD7
-P 7750 3750
-F 0 "#PWR27" H 7750 3500 50  0001 C CNN
-F 1 "GND" H 7750 3600 50  0000 C CNN
-F 2 "" H 7750 3750 60  0000 C CNN
-F 3 "" H 7750 3750 60  0000 C CNN
-	1    7750 3750
+P 8275 3550
+F 0 "#PWR13" H 8275 3300 50  0001 C CNN
+F 1 "GND" H 8275 3400 50  0000 C CNN
+F 2 "" H 8275 3550 60  0000 C CNN
+F 3 "" H 8275 3550 60  0000 C CNN
+	1    8275 3550
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	7225 3450 7225 3525
-Wire Wire Line
-	7225 3525 8175 3525
-Wire Wire Line
-	8175 3525 8175 3450
-Wire Wire Line
-	7750 3325 7750 3750
-Connection ~ 7750 3525
 $Comp
-L +3V3 #PWR28
+L +3V3 #PWR14
 U 1 1 5723EAD8
-P 8350 3025
-F 0 "#PWR28" H 8350 2875 50  0001 C CNN
-F 1 "+3V3" H 8350 3165 50  0000 C CNN
-F 2 "" H 8350 3025 60  0000 C CNN
-F 3 "" H 8350 3025 60  0000 C CNN
-	1    8350 3025
+P 10150 2925
+F 0 "#PWR14" H 10150 2775 50  0001 C CNN
+F 1 "+3V3" H 10150 3065 50  0000 C CNN
+F 2 "" H 10150 2925 60  0000 C CNN
+F 3 "" H 10150 2925 60  0000 C CNN
+	1    10150 2925
 	0    1    1    0   
 $EndComp
-Connection ~ 8175 3025
 $Comp
 L R R12
 U 1 1 5723EAD9
 P 5450 3950
 F 0 "R12" V 5530 3950 50  0000 C CNN
 F 1 "3k3" V 5450 3950 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 5380 3950 30  0001 C CNN
+F 2 "w_smd_resistors:r_0402" V 5380 3950 30  0001 C CNN
 F 3 "" H 5450 3950 30  0000 C CNN
 	1    5450 3950
 	0    1    1    0   
@@ -213,10 +177,10 @@ Wire Wire Line
 	6125 3425 6000 3425
 Connection ~ 6125 3325
 $Comp
-L GND #PWR26
+L GND #PWR11
 U 1 1 5723EADB
 P 6550 4025
-F 0 "#PWR26" H 6550 3775 50  0001 C CNN
+F 0 "#PWR11" H 6550 3775 50  0001 C CNN
 F 1 "GND" H 6644 3988 50  0000 L CNN
 F 2 "" H 6550 4025 60  0000 C CNN
 F 3 "" H 6550 4025 60  0000 C CNN
@@ -225,71 +189,46 @@ F 3 "" H 6550 4025 60  0000 C CNN
 $EndComp
 Wire Wire Line
 	6300 3525 6000 3525
-Connection ~ 7225 3025
 Wire Wire Line
-	6125 2950 6125 3125
+	7300 2625 7300 2925
 Wire Wire Line
-	6125 3225 6125 3425
+	6125 3025 6125 3425
 Wire Wire Line
 	6300 3425 6300 3575
 Wire Wire Line
 	6550 3525 6550 4025
-$Comp
-L AP111733 U4
-U 1 1 57241BB2
-P 7750 3025
-F 0 "U4" H 7750 3392 50  0000 C CNN
-F 1 "AP111733" H 7750 3301 50  0000 C CNN
-F 2 "linear:SOT223" H 7750 2675 50  0001 C CNN
-F 3 "" H 7850 2775 50  0000 C CNN
-	1    7750 3025
-	1    0    0    -1  
-$EndComp
 NoConn ~ 6000 3625
 Wire Wire Line
 	6300 3425 6550 3425
-Connection ~ 6125 3025
+Connection ~ 7300 2925
 Text HLabel 4175 3525 0    60   Output ~ 0
 progress
 Text HLabel 4175 3625 0    60   Output ~ 0
 complete
-Text HLabel 7225 2850 1    60   Output ~ 0
+Text HLabel 8000 2725 1    60   Output ~ 0
 sense
 $Comp
-L +BATT #PWR25
+L +BATT #PWR12
 U 1 1 572542F4
-P 6125 2950
-F 0 "#PWR25" H 6125 2800 50  0001 C CNN
-F 1 "+BATT" H 6140 3123 50  0000 C CNN
-F 2 "" H 6125 2950 50  0000 C CNN
-F 3 "" H 6125 2950 50  0000 C CNN
-	1    6125 2950
-	1    0    0    -1  
-$EndComp
-$Comp
-L CONN_01X02 P10
-U 1 1 577EA8A3
-P 6350 3175
-F 0 "P10" H 6428 3216 50  0000 L CNN
-F 1 "CONN_01X02" H 6428 3125 50  0000 L CNN
-F 2 "w_pin_strip:pin_strip_2" V 6178 3037 50  0001 R CNN
-F 3 "" H 6350 3175 50  0000 C CNN
-	1    6350 3175
+P 7300 2625
+F 0 "#PWR12" H 7300 2475 50  0001 C CNN
+F 1 "+BATT" H 7315 2798 50  0000 C CNN
+F 2 "" H 7300 2625 50  0000 C CNN
+F 3 "" H 7300 2625 50  0000 C CNN
+	1    7300 2625
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	6000 3325 6550 3325
 Wire Wire Line
-	6125 3125 6150 3125
-Wire Wire Line
-	6125 3225 6150 3225
+	6125 3025 6225 3025
 $Comp
 L R R18
 U 1 1 57D567E4
 P 6300 3725
 F 0 "R18" V 6380 3725 50  0000 C CNN
 F 1 "10k" V 6300 3725 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 6230 3725 30  0001 C CNN
+F 2 "w_smd_resistors:r_0402" V 6230 3725 30  0001 C CNN
 F 3 "" H 6300 3725 30  0000 C CNN
 	1    6300 3725
 	-1   0    0    1   
@@ -301,9 +240,136 @@ Connection ~ 6300 3525
 Text Notes 6425 3800 1    60   ~ 0
 opt
 Wire Wire Line
-	6125 3025 7450 3025
-Wire Wire Line
-	7225 2850 7225 3150
-Wire Wire Line
 	4675 3425 4675 3325
+$Comp
+L usb-micro U1
+U 1 1 57D9F1F1
+P 2025 3500
+F 0 "U1" H 2075 3400 60  0000 C CNN
+F 1 "usb-micro" H 2075 3500 60  0000 C CNN
+F 2 "w_conn_pc:conn_usb_B_micro_smd-2" H 2075 3500 60  0001 C CNN
+F 3 "" H 2075 3500 60  0000 C CNN
+	1    2025 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR7
+U 1 1 57D9F1F8
+P 1350 3825
+F 0 "#PWR7" H 1350 3575 50  0001 C CNN
+F 1 "GND" H 1350 3675 50  0000 C CNN
+F 2 "" H 1350 3825 60  0000 C CNN
+F 3 "" H 1350 3825 60  0000 C CNN
+	1    1350 3825
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1425 3750 1350 3750
+Wire Wire Line
+	1350 3750 1350 3825
+NoConn ~ 1425 3650
+$Comp
+L +5V #PWR6
+U 1 1 57D9F201
+P 1350 3350
+F 0 "#PWR6" H 1350 3200 50  0001 C CNN
+F 1 "+5V" H 1350 3490 50  0000 C CNN
+F 2 "" H 1350 3350 60  0000 C CNN
+F 3 "" H 1350 3350 60  0000 C CNN
+	1    1350 3350
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 1425 3550
+NoConn ~ 1425 3450
+Wire Wire Line
+	1350 3350 1425 3350
+$Comp
+L SWITCH_INV SW1
+U 1 1 58099999
+P 6725 3025
+F 0 "SW1" H 6725 3350 50  0000 C CNN
+F 1 "SWITCH_INV" H 6725 3259 50  0000 C CNN
+F 2 "iwasz:1437575-1" H 6725 3025 50  0001 C CNN
+F 3 "http://pl.farnell.com/te-connectivity-alcoswitch/1437575-1/slide-switch-spdt-0-3a-4v-smd/dp/2468745" H 6725 3025 50  0001 C CNN
+F 4 "https://www.aliexpress.com/item/20pcs-MSK12C02-MINI-Miniature-SMD-Slide-Switch-1P2T-7Pin-For-DIY-Electronic-Accessories/32668282935.html?spm=2114.01010208.3.27.ooisEG&ws_ab_test=searchweb0_0,searchweb201602_4_10065_10068_10069_10084_10083_10017_10080_10082_10081_10060_10061_10062_10056_10055_10054_10059_10078_10079_10073_10070_421_420_10052_10053_10050_10051,searchweb201603_1&btsid=5d866a43-1c6b-482f-9d0d-8e6905bf5cb0" H 6725 3025 60  0001 C CNN "Datasheet2"
+F 5 "Włącznik zasilania" H 6725 3025 60  0001 C CNN "Opis"
+F 6 "http://www.farnell.com/cad/1839720.pdf?_ga=1.15575920.734114644.1428524414" H 6725 3025 60  0001 C CNN "DatasheetPDF"
+	1    6725 3025
+	1    0    0    -1  
+$EndComp
+NoConn ~ 7225 3125
+Text Notes 3900 2200 0    60   ~ 0
+1. Kiedy jest ładowanie baterii, a włącznik będzie WYłączony, to nie będzie żadnego feedbaku (migającej diody etc). \n2. Kiedy będzie WŁĄczony, i podłączone ładowanie, to program będzie pokazywał na diodzie stan ładowania.\n3. Kiedy będzie WŁĄczony i nie będzie podłączone ładowanie, to mamy normalne działanie.\nPomysł z diodą schottky między +5V a +BATT miał tę wadę, że gdy włącznik byłby WŁĄczony, to ok. 5V szło by bezpośrednio do baterii.
+$Comp
+L MIC5501 U4
+U 1 1 580E915A
+P 9000 3075
+F 0 "U4" H 9025 3512 60  0000 C CNN
+F 1 "MIC5501" H 9025 3406 60  0000 C CNN
+F 2 "w_smd_trans:sot23-5" H 9000 3075 60  0001 C CNN
+F 3 "http://pl.farnell.com/microchip/mic5504-3-3ym5-tr/ldo-volt-reg-0-3a-3-3v-sot-23/dp/2510377" H 9000 3075 60  0001 C CNN
+	1    9000 3075
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7225 2925 8450 2925
+Wire Wire Line
+	8450 3175 8275 3175
+Wire Wire Line
+	8275 3175 8275 3550
+Wire Wire Line
+	9600 2925 10150 2925
+Connection ~ 8000 2925
+$Comp
+L +BATT #PWR15
+U 1 1 580EB925
+P 10150 3475
+F 0 "#PWR15" H 10150 3325 50  0001 C CNN
+F 1 "+BATT" H 10165 3648 50  0000 C CNN
+F 2 "" H 10150 3475 50  0000 C CNN
+F 3 "" H 10150 3475 50  0000 C CNN
+	1    10150 3475
+	0    1    1    0   
+$EndComp
+$Comp
+L C C14
+U 1 1 580EBC95
+P 8000 3125
+F 0 "C14" H 8115 3171 50  0000 L CNN
+F 1 "1µF X7R 10V" H 7650 3025 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 8038 2975 50  0001 C CNN
+F 3 "" H 8000 3125 50  0000 C CNN
+	1    8000 3125
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8000 2725 8000 2975
+Wire Wire Line
+	8000 3275 8000 3350
+Wire Wire Line
+	8000 3350 8275 3350
+Connection ~ 8275 3350
+$Comp
+L C C15
+U 1 1 580EC251
+P 10000 3100
+F 0 "C15" H 10115 3146 50  0000 L CNN
+F 1 "1µF X7R 10V" H 9900 3025 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 10038 2950 50  0001 C CNN
+F 3 "" H 10000 3100 50  0000 C CNN
+	1    10000 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9600 3175 9725 3175
+Wire Wire Line
+	9725 3175 9725 3475
+Wire Wire Line
+	9725 3475 10150 3475
+Wire Wire Line
+	10000 3250 10000 3475
+Connection ~ 10000 3475
+Wire Wire Line
+	10000 2950 10000 2925
+Connection ~ 10000 2925
 $EndSCHEMATC
