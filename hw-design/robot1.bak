@@ -66,11 +66,6 @@ F6 "aphaser" I L 7050 2475 60
 F7 "aenblr" I L 7050 2575 60 
 F8 "bphaser" I L 7050 2675 60 
 F9 "benblr" I L 7050 2775 60 
-F10 "sda" B L 7050 2875 60 
-F11 "photo_l_int" O L 7050 3175 60 
-F12 "scl" I L 7050 2975 60 
-F13 "photo_r_int" O L 7050 3075 60 
-F14 "photo_illumination" I L 7050 3275 60 
 $EndSheet
 $Sheet
 S 2475 3600 1075 700 
@@ -168,16 +163,6 @@ Wire Wire Line
 	6575 2675 7050 2675
 Wire Wire Line
 	7050 2775 6575 2775
-Wire Wire Line
-	6575 2875 7050 2875
-Wire Wire Line
-	7050 2975 6575 2975
-Wire Wire Line
-	6575 3075 7050 3075
-Wire Wire Line
-	7050 3175 6575 3175
-Wire Wire Line
-	6575 3275 7050 3275
 $Sheet
 S 7050 3875 1050 725 
 U 580FC6A6

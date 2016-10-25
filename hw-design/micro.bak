@@ -732,12 +732,12 @@ $EndComp
 $Comp
 L +BATT #PWR35
 U 1 1 58152F17
-P 1675 6000
-F 0 "#PWR35" H 1675 5850 50  0001 C CNN
-F 1 "+BATT" V 1690 6127 50  0000 L CNN
-F 2 "" H 1675 6000 50  0000 C CNN
-F 3 "" H 1675 6000 50  0000 C CNN
-	1    1675 6000
+P 1675 6800
+F 0 "#PWR35" H 1675 6650 50  0001 C CNN
+F 1 "+BATT" V 1690 6927 50  0000 L CNN
+F 2 "" H 1675 6800 50  0000 C CNN
+F 3 "" H 1675 6800 50  0000 C CNN
+	1    1675 6800
 	0    -1   -1   0   
 $EndComp
 $Comp
@@ -856,21 +856,21 @@ Text HLabel 1675 5800 0    60   Output ~ 0
 aenbll
 Text HLabel 1675 5900 0    60   Output ~ 0
 benbll
-Text HLabel 1675 6100 0    60   Output ~ 0
+Text HLabel 1675 6000 0    60   Output ~ 0
 led_b
-Text HLabel 1675 6200 0    60   Output ~ 0
+Text HLabel 1675 6100 0    60   Output ~ 0
 led_g
-Text HLabel 1675 6300 0    60   Output ~ 0
+Text HLabel 1675 6200 0    60   Output ~ 0
 led_r
-Text HLabel 1675 6400 0    60   Output ~ 0
+Text HLabel 1675 6300 0    60   Output ~ 0
 ir_cannon
-Text HLabel 1675 6500 0    60   Input ~ 0
+Text HLabel 1675 6400 0    60   Input ~ 0
 ir_sense
-Text HLabel 1675 6600 0    60   Input ~ 0
+Text HLabel 1675 6500 0    60   Input ~ 0
 nrst
-Text HLabel 1675 6700 0    60   Output ~ 0
+Text HLabel 1675 6600 0    60   Output ~ 0
 console_tx
-Text HLabel 1675 6800 0    60   Input ~ 0
+Text HLabel 1675 6700 0    60   Input ~ 0
 console_rx
 Text HLabel 1100 7000 0    60   BiDi ~ 0
 swdio
