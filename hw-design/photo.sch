@@ -1,0 +1,415 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:iwasz-kicad
+LIBS:robot1-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 7 7
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L TCS3472 U2
+U 1 1 580FD803
+P 2625 2000
+F 0 "U2" H 2600 2537 60  0000 C CNN
+F 1 "TCS3472" H 2600 2431 60  0000 C CNN
+F 2 "iwasz:SC70-6" H 2625 2000 60  0001 C CNN
+F 3 "http://pl.rs-online.com/web/p/czujniki-koloru-i-swiatla/7857749/" H 2625 2000 60  0001 C CNN
+F 4 "http://pl.rs-online.com/web/p/czujniki-koloru-i-swiatla/7857746/" H 2625 2000 60  0001 C CNN "Datasheet2"
+	1    2625 2000
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C2
+U 1 1 580FD80B
+P 1800 1600
+F 0 "C2" H 1825 1700 50  0000 L CNN
+F 1 "100nF" H 1825 1500 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 1838 1450 30  0001 C CNN
+F 3 "" H 1800 1600 60  0000 C CNN
+F 4 "Decoupling capacitor" H 1800 1600 60  0001 C CNN "Opis"
+	1    1800 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR72
+U 1 1 580FD812
+P 1625 1800
+F 0 "#PWR72" H 1625 1650 50  0001 C CNN
+F 1 "+3.3V" V 1640 1928 50  0000 L CNN
+F 2 "" H 1625 1800 50  0000 C CNN
+F 3 "" H 1625 1800 50  0000 C CNN
+	1    1625 1800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR74
+U 1 1 580FD818
+P 1800 1400
+F 0 "#PWR74" H 1800 1150 50  0001 C CNN
+F 1 "GND" H 1805 1227 50  0000 C CNN
+F 2 "" H 1800 1400 50  0000 C CNN
+F 3 "" H 1800 1400 50  0000 C CNN
+	1    1800 1400
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR76
+U 1 1 580FD81E
+P 1850 2325
+F 0 "#PWR76" H 1850 2075 50  0001 C CNN
+F 1 "GND" H 1855 2152 50  0000 C CNN
+F 2 "" H 1850 2325 50  0000 C CNN
+F 3 "" H 1850 2325 50  0000 C CNN
+	1    1850 2325
+	1    0    0    -1  
+$EndComp
+NoConn ~ 3225 2200
+$Comp
+L TCS3472 U9
+U 1 1 580FD828
+P 2625 3475
+F 0 "U9" H 2600 4012 60  0000 C CNN
+F 1 "TCS3472" H 2600 3906 60  0000 C CNN
+F 2 "iwasz:SC70-6" H 2625 3475 60  0001 C CNN
+F 3 "" H 2625 3475 60  0001 C CNN
+	1    2625 3475
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C3
+U 1 1 580FD830
+P 1800 3075
+F 0 "C3" H 1825 3175 50  0000 L CNN
+F 1 "100nF" H 1825 2975 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 1838 2925 30  0001 C CNN
+F 3 "" H 1800 3075 60  0000 C CNN
+F 4 "Decoupling capacitor" H 1800 3075 60  0001 C CNN "Opis"
+	1    1800 3075
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR73
+U 1 1 580FD837
+P 1625 3275
+F 0 "#PWR73" H 1625 3125 50  0001 C CNN
+F 1 "+3.3V" V 1640 3403 50  0000 L CNN
+F 2 "" H 1625 3275 50  0000 C CNN
+F 3 "" H 1625 3275 50  0000 C CNN
+	1    1625 3275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR75
+U 1 1 580FD83D
+P 1800 2875
+F 0 "#PWR75" H 1800 2625 50  0001 C CNN
+F 1 "GND" H 1805 2702 50  0000 C CNN
+F 2 "" H 1800 2875 50  0000 C CNN
+F 3 "" H 1800 2875 50  0000 C CNN
+	1    1800 2875
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR77
+U 1 1 580FD843
+P 1850 3800
+F 0 "#PWR77" H 1850 3550 50  0001 C CNN
+F 1 "GND" H 1855 3627 50  0000 C CNN
+F 2 "" H 1850 3800 50  0000 C CNN
+F 3 "" H 1850 3800 50  0000 C CNN
+	1    1850 3800
+	1    0    0    -1  
+$EndComp
+NoConn ~ 3225 3675
+$Comp
+L LED D1
+U 1 1 580FD84B
+P 3375 5425
+F 0 "D1" H 3375 5525 50  0000 C CNN
+F 1 "LED" H 3375 5325 50  0000 C CNN
+F 2 "LEDs:LED_0805" H 3375 5425 60  0001 C CNN
+F 3 "http://pl.farnell.com/multicomp/ovs-0801/led-0805-white-400mcd/dp/1716764" H 3375 5425 60  0001 C CNN
+	1    3375 5425
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R2
+U 1 1 580FD852
+P 3375 5000
+F 0 "R2" V 3455 5000 50  0000 C CNN
+F 1 "80" V 3375 5000 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 3305 5000 30  0001 C CNN
+F 3 "" H 3375 5000 30  0000 C CNN
+	1    3375 5000
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR79
+U 1 1 580FD859
+P 3375 6250
+F 0 "#PWR79" H 3375 6000 50  0001 C CNN
+F 1 "GND" H 3375 6100 50  0000 C CNN
+F 2 "" H 3375 6250 60  0000 C CNN
+F 3 "" H 3375 6250 60  0000 C CNN
+	1    3375 6250
+	1    0    0    -1  
+$EndComp
+Text Notes 2075 1350 0    60   ~ 0
+Color detectors. Also see VEML6040A3OG\nhttp://pl.rs-online.com/web/p/czujniki-koloru-i-swiatla/1226788/
+Text Notes 3225 6200 2    60   ~ 0
+Illumination for photo detectors.
+Wire Wire Line
+	1625 1800 1975 1800
+Wire Wire Line
+	1800 1800 1800 1750
+Connection ~ 1800 1800
+Wire Wire Line
+	1800 1400 1800 1450
+Wire Wire Line
+	1975 2200 1850 2200
+Wire Wire Line
+	1850 2200 1850 2325
+Wire Wire Line
+	3225 1800 3850 1800
+Wire Wire Line
+	1175 2000 1975 2000
+Wire Wire Line
+	3350 2000 3225 2000
+Wire Wire Line
+	1625 3275 1975 3275
+Wire Wire Line
+	1800 3275 1800 3225
+Connection ~ 1800 3275
+Wire Wire Line
+	1800 2875 1800 2925
+Wire Wire Line
+	1975 3675 1850 3675
+Wire Wire Line
+	1850 3675 1850 3800
+Wire Wire Line
+	3225 3275 3525 3275
+Wire Wire Line
+	1450 3475 1975 3475
+Wire Wire Line
+	3350 3475 3225 3475
+Wire Wire Line
+	3525 3275 3525 1800
+Connection ~ 3525 1800
+Wire Wire Line
+	1450 3475 1450 2000
+Connection ~ 1450 2000
+$Comp
+L Q_NPN_CBE Q1
+U 1 1 580FD878
+P 3275 5925
+F 0 "Q1" H 3468 5971 50  0000 L CNN
+F 1 "BC847" H 3468 5879 50  0000 L CNN
+F 2 "w_smd_trans:sot23" H 3475 6025 29  0001 C CNN
+F 3 "http://pl.farnell.com/fairchild-semiconductor/2n3904bu/transistor-npn-40v-200ma-to-92/dp/1700648" H 3275 5925 60  0001 C CNN
+	1    3275 5925
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R1
+U 1 1 580FD87F
+P 2800 5925
+F 0 "R1" V 2593 5925 50  0000 C CNN
+F 1 "1k" V 2684 5925 50  0000 C CNN
+F 2 "w_smd_resistors:r_0402" V 2730 5925 50  0001 C CNN
+F 3 "" H 2800 5925 50  0000 C CNN
+	1    2800 5925
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3375 4775 3375 4850
+Wire Wire Line
+	3375 5150 3375 5225
+Wire Wire Line
+	3375 5625 3375 5725
+Wire Wire Line
+	3375 6125 3375 6250
+Wire Wire Line
+	2950 5925 3075 5925
+Wire Wire Line
+	2550 5925 2650 5925
+$Comp
+L +BATT #PWR78
+U 1 1 580FD88C
+P 3375 4775
+F 0 "#PWR78" H 3375 4625 50  0001 C CNN
+F 1 "+BATT" H 3390 4948 50  0000 C CNN
+F 2 "" H 3375 4775 50  0000 C CNN
+F 3 "" H 3375 4775 50  0000 C CNN
+	1    3375 4775
+	1    0    0    -1  
+$EndComp
+Text Notes 2600 5050 0    60   ~ 0
+10mA @ 80R
+$Comp
+L GND #PWR82
+U 1 1 580FEB92
+P 6650 4475
+F 0 "#PWR82" H 6650 4225 50  0001 C CNN
+F 1 "GND" H 6650 4325 50  0000 C CNN
+F 2 "" H 6650 4475 60  0000 C CNN
+F 3 "" H 6650 4475 60  0000 C CNN
+	1    6650 4475
+	0    1    1    0   
+$EndComp
+$Comp
+L +3.3V #PWR81
+U 1 1 580FEB98
+P 6650 4275
+F 0 "#PWR81" H 6650 4125 50  0001 C CNN
+F 1 "+3.3V" H 6650 4415 50  0000 C CNN
+F 2 "" H 6650 4275 60  0000 C CNN
+F 3 "" H 6650 4275 60  0000 C CNN
+	1    6650 4275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L +BATT #PWR80
+U 1 1 580FEB9E
+P 6650 3375
+F 0 "#PWR80" H 6650 3225 50  0001 C CNN
+F 1 "+BATT" V 6665 3502 50  0000 L CNN
+F 2 "" H 6650 3375 50  0000 C CNN
+F 3 "" H 6650 3375 50  0000 C CNN
+	1    6650 3375
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X17 P6
+U 1 1 580FEBAA
+P 6950 3775
+F 0 "P6" H 6525 2725 50  0000 L CNN
+F 1 "CONN_01X17" H 6500 2825 50  0000 L CNN
+F 2 "iwasz:pin_socket_17" H 6950 3775 50  0001 C CNN
+F 3 "" H 6950 3775 50  0000 C CNN
+	1    6950 3775
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X17 P7
+U 1 1 580FEBB1
+P 7075 3775
+F 0 "P7" H 6700 2800 50  0000 L CNN
+F 1 "CONN_01X17" H 6650 2875 50  0000 L CNN
+F 2 "iwasz:pin_socket_17" H 7075 3775 50  0001 C CNN
+F 3 "" H 7075 3775 50  0000 C CNN
+	1    7075 3775
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR83
+U 1 1 580FEBB8
+P 7375 4075
+F 0 "#PWR83" H 7375 3825 50  0001 C CNN
+F 1 "GND" H 7375 3925 50  0000 C CNN
+F 2 "" H 7375 4075 60  0000 C CNN
+F 3 "" H 7375 4075 60  0000 C CNN
+	1    7375 4075
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	7375 4575 7275 4575
+Wire Wire Line
+	7375 4475 7275 4475
+Wire Wire Line
+	7275 4375 7375 4375
+Wire Wire Line
+	7375 4275 7275 4275
+Wire Wire Line
+	7275 4175 7375 4175
+Wire Wire Line
+	7375 4075 7275 4075
+Wire Wire Line
+	6650 4475 6750 4475
+Wire Wire Line
+	6650 4275 6750 4275
+Wire Wire Line
+	6650 3375 6750 3375
+Text Label 2550 5925 2    60   ~ 0
+photo_illumination
+NoConn ~ 7275 2975
+NoConn ~ 7275 3075
+NoConn ~ 7275 3175
+NoConn ~ 7275 3275
+NoConn ~ 7275 3375
+NoConn ~ 7275 3475
+NoConn ~ 7275 3575
+NoConn ~ 7275 3675
+NoConn ~ 7275 3775
+NoConn ~ 7275 3875
+NoConn ~ 7275 3975
+NoConn ~ 6750 2975
+NoConn ~ 6750 3075
+NoConn ~ 6750 3175
+NoConn ~ 6750 3275
+NoConn ~ 6750 3475
+NoConn ~ 6750 3575
+NoConn ~ 6750 3675
+NoConn ~ 6750 3775
+NoConn ~ 6750 3875
+NoConn ~ 6750 3975
+NoConn ~ 6750 4075
+NoConn ~ 6750 4175
+NoConn ~ 6750 4375
+NoConn ~ 6750 4575
+Text Label 7375 4575 0    60   ~ 0
+photo_illumination
+Text Label 7375 4475 0    60   ~ 0
+photo_l_int
+Text Label 7375 4375 0    60   ~ 0
+photo_r_int
+Text Label 7375 4275 0    60   ~ 0
+scl
+Text Label 7375 4175 0    60   ~ 0
+sda
+Text Label 3350 3475 0    60   ~ 0
+photo_r_int
+Text Label 1175 2000 2    60   ~ 0
+scl
+Text Label 3350 2000 0    60   ~ 0
+photo_l_int
+Text Label 3850 1800 0    60   ~ 0
+sda
+$EndSCHEMATC

@@ -34,7 +34,7 @@ EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 6
+Sheet 1 7
 Title ""
 Date ""
 Rev ""
@@ -178,4 +178,10 @@ Wire Wire Line
 	7050 3175 6575 3175
 Wire Wire Line
 	6575 3275 7050 3275
+$Sheet
+S 7050 3875 1050 725 
+U 580FC6A6
+F0 "photo" 60
+F1 "photo.sch" 60
+$EndSheet
 $EndSCHEMATC
