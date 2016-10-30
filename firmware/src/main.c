@@ -28,8 +28,8 @@ static TIM_HandleTypeDef motorMicroStepTimer;
  * 1    : slowest forward
  * 127  : fastest forward
  */
-int8_t leftMotorSpeed = 0;
-int8_t rightMotorSpeed = 0;
+int8_t leftMotorSpeed = 20;
+int8_t rightMotorSpeed = 20;
 
 /*****************************************************************************/
 
